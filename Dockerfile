@@ -1,30 +1,26 @@
 FROM php:8.2-apache
 
-# تثبيت Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# تثبيت PHP Extensions
+RUN apt-get update && apt-get install -y \
+    zip unzip git curl libzip-dev libpng-dev libonig-dev libxml2-dev \
+    && docker-php-ext-install pdo pdo_mysql zip
 
-# نسخ كل ملفات المشروع إلى السيرفر
-COPY . /var/www/html
-
-# تحديد مجلد العمل
-WORKDIR /var/www/html
-
-# تثبيت الباكجات
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader
-
-# صلاحيات التخزين والـ cache
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-
-# تغيير الـ DocumentRoot لـ public/
-RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|' /etc/apache2/sites-available/000-default.conf
-
-# تفعيل mod_rewrite للـ .htaccess
+# تفعيل mod_rewrite
 RUN a2enmod rewrite
 
-# صلاحيات عامة
-RUN chmod -R 755 /var/www/html
+# ضبط مجلد العمل
+WORKDIR /var/www/html
 
-# تشغيل Apache
+# نسخ المشروع بالكامل (بما في ذلك vendor)
+COPY . /var/www/html
+
+# تغيير صلاحيات التخزين
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
+    && chmod -R 755 /var/www/html
+
+# تعيين public كمجلد رئيسي في Apache
+RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf
+
+# تشغيل السيرفر
 CMD ["apache2-foreground"]
-
 
