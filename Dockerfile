@@ -1,22 +1,20 @@
 FROM php:8.2-apache
 
-RUN apt-get update && apt-get install -y \
-    zip unzip git curl libzip-dev libpng-dev libonig-dev libxml2-dev \
-    && docker-php-ext-install pdo pdo_mysql zip
-
-RUN a2enmod rewrite
-
-WORKDIR /var/www/html
-
-COPY . /var/www/html
-
+# تثبيت Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+# نسخ المشروع
+COPY . /var/www/html/
 
+# إعداد صلاحيات Laravel
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-EXPOSE 80
+RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|' /etc/apache2/sites-available/000-default.conf
 
+# تفعيل mod_rewrite لـ Laravel routes
+RUN a2enmod rewrite
+
+# إعادة تشغيل Apache
 CMD ["apache2-foreground"]
+
 
