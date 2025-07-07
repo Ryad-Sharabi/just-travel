@@ -40,6 +40,13 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+
+       'flutter' => [
+          'driver' => 'sanctum',
+          'provider' => 'flutter_users',
+],
+
     ],
 
     /*
@@ -64,6 +71,11 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
+        'flutter_users' => [
+    'driver' => 'eloquent',
+    'model' => App\Models\FlutterUser::class,
+],
+
 
         // 'users' => [
         //     'driver' => 'database',
