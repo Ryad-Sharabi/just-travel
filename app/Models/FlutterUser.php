@@ -5,10 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class FlutterUser extends Authenticatable
+
+class FlutterUser extends Authenticatable implements MustVerifyEmail
 {
+use HasApiTokens, HasFactory, Notifiable;
 use HasApiTokens, HasFactory;
 
 protected $fillable = [

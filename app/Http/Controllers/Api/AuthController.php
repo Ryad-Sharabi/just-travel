@@ -26,9 +26,9 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        $imagePath = null;
+       $imagePath = null;
         if ($request->hasFile('profile_image')) {
-            $imagePath = $request->file('profile_image')->store('users', 'public');
+        $imagePath = $request->file('profile_image')->store('profile_images', 'public');
         }
 
         $user = User::create([
@@ -36,7 +36,7 @@ class AuthController extends Controller
             'last_name'     => $request->last_name,
             'email'         => $request->email,
             'password'      => Hash::make($request->password),
-            'profile_image' => $imagePath,
+            'profile_image_url'  => $imagePath ? Storage::url($imagePath) : null,
              'role_id'    => 2,
         ]);
 

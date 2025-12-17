@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 
 class FlutterAuthController extends Controller
@@ -18,45 +20,32 @@ public function register(Request $request)
     if ($request->hasFile('profile_image')) {
         $profileImage = $request->file('profile_image')->store('profile_images', 'public');
     }
-
-    $verificationToken = Str::random(40);
-
+try {
     $user = FlutterUser::create([
         'first_name' => $request->first_name,
         'last_name' => $request->last_name,
         'email' => $request->email,
         'password' => Hash::make($request->password),
         'profile_image' => $profileImage,
-        'email_verified_at' => now()
-      //  'email_verification_token' => $verificationToken,
     ]);
+
+    $user->sendEmailVerificationNotification();
 
     $token = $user->createToken('flutter_token')->plainTextToken;
 
-  //  $verificationUrl = url("/api/verify-email/{$verificationToken}");
- //  Mail::send('emails.verify_email', ['user' => $user, 'verificationUrl' => $verificationUrl], function ($message) use ($user) {
- //   $message->to($user->email)->subject('Verify Your Email Address');
-//});
-
-
     return response()->json([
-        'message' => 'User registered successfully. Please verify your email.',
-        'token' => $token,
-        'user' => $user
-    ], 201);
+        'message' => 'done',
+        'token' => $token
+    ]);
+} catch (\Exception $e) {
+    return response()->json([
+        'error' => $e->getMessage(),
+        'trace' => $e->getTraceAsString()
+    ], 500);
 }
-public function verifyEmail($token) {
-    $user = FlutterUser::where('email_verification_token', $token)->first();
-    if (!$user) {
-        return response()->json(['message' => 'Invalid or expired token'], 404);
-    }
 
-    $user->email_verified_at = now();
-    $user->email_verification_token = null;
-    $user->save();
-
-    return response()->json(['message' => 'Email verified successfully']);
 }
+
 public function login(Request $request)
 {
     $request->validate([
@@ -121,8 +110,91 @@ public function updateProfileImage(Request $request)
         'profile_image' => $user->profile_image,
     ]);
 }
+public function deleteAccount(Request $request)
+{
+    $user = $request->user();
 
+    if (!$user) {
+        return response()->json(['message' => 'User not found'], 404);
+    }
 
+    $user->delete();
 
+    return response()->json(['message' => 'Account deleted successfully']);
+}
+
+public function sendResetCode(Request $request)
+{
+    $request->validate(['email' => 'required|email']);
+    $email = strtolower($request->email);
+
+    // لا نُفصح إن كان الإيميل موجود
+    $user = FlutterUser::where('email', $email)->first();
+    if (!$user) {
+        return response()->json(['message' => 'If email exists, a code will be sent'], 200);
+    }
+
+    $code = random_int(100000, 999999);
+    $key  = "pwd_reset:$email";
+
+    Cache::put($key, [
+        'code'       => (string)$code,
+        'expires_at' => now()->addMinutes(15)->timestamp,
+        'attempts'   => 0,
+    ], now()->addMinutes(15));
+
+    Mail::raw("Your reset code is: {$code}\nThis code expires in 15 minutes.", function ($m) use ($email) {
+        $m->to($email)->subject('Password Reset Code');
+    });
+
+    return response()->json(['message' => 'Reset code sent if email exists'], 200);
+}
+
+public function resetPasswordWithCode(Request $request)
+{
+    $request->validate([
+        'email'                 => 'required|email',
+        'code'                  => 'required|digits:6',
+        'password'              => 'required|min:6|confirmed', // أرسل password_confirmation
+    ]);
+
+    $email = strtolower($request->email);
+    $key   = "pwd_reset:$email";
+    $data  = Cache::get($key);
+
+    if (!$data) return response()->json(['message' => 'Invalid or expired code'], 400);
+
+    if (($data['attempts'] ?? 0) >= 5) {
+        Cache::forget($key);
+        return response()->json(['message' => 'Too many attempts. Request new code'], 429);
+    }
+
+    // زوّد العدّاد واحفظ نفس الانتهاء
+    $data['attempts'] = ($data['attempts'] ?? 0) + 1;
+    Cache::put($key, $data, Carbon::createFromTimestamp($data['expires_at']));
+
+    if ((string)$request->code !== (string)$data['code'])
+        return response()->json(['message' => 'Invalid code'], 400);
+
+    if (now()->timestamp > ($data['expires_at'] ?? 0)) {
+        Cache::forget($key);
+        return response()->json(['message' => 'Code expired'], 400);
+    }
+
+    $user = FlutterUser::where('email', $email)->first();
+    if (!$user) {
+        Cache::forget($key);
+        return response()->json(['message' => 'Invalid or expired code'], 400);
+    }
+
+    $user->password = Hash::make($request->password);
+    $user->save();
+
+    Cache::forget($key);
+    // (اختياري) ألغِ التوكنات القديمة:
+     $user->tokens()->delete();
+
+    return response()->json(['message' => 'Password reset successfully'], 200);
+}
 
 }
