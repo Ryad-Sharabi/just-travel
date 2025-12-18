@@ -1,133 +1,1153 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Just Travel - AI Powered Journeys</title>
+    @include('partials.clarity')
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-        <!-- Styles -->
-        <style>
-            /* ! tailwindcss v3.2.4 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:Figtree, sans-serif;font-feature-settings:normal}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;font-weight:inherit;line-height:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]{display:none}*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::-webkit-backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }.relative{position:relative}.mx-auto{margin-left:auto;margin-right:auto}.mx-6{margin-left:1.5rem;margin-right:1.5rem}.ml-4{margin-left:1rem}.mt-16{margin-top:4rem}.mt-6{margin-top:1.5rem}.mt-4{margin-top:1rem}.-mt-px{margin-top:-1px}.mr-1{margin-right:0.25rem}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.h-16{height:4rem}.h-7{height:1.75rem}.h-6{height:1.5rem}.h-5{height:1.25rem}.min-h-screen{min-height:100vh}.w-auto{width:auto}.w-16{width:4rem}.w-7{width:1.75rem}.w-6{width:1.5rem}.w-5{width:1.25rem}.max-w-7xl{max-width:80rem}.shrink-0{flex-shrink:0}.scale-100{--tw-scale-x:1;--tw-scale-y:1;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.items-center{align-items:center}.justify-center{justify-content:center}.gap-6{gap:1.5rem}.gap-4{gap:1rem}.self-center{align-self:center}.rounded-lg{border-radius:0.5rem}.rounded-full{border-radius:9999px}.bg-gray-100{--tw-bg-opacity:1;background-color:rgb(243 244 246 / var(--tw-bg-opacity))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity))}.bg-red-50{--tw-bg-opacity:1;background-color:rgb(254 242 242 / var(--tw-bg-opacity))}.bg-dots-darker{background-image:url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(0,0,0,0.07)'/%3E%3C/svg%3E")}.from-gray-700\/50{--tw-gradient-from:rgb(55 65 81 / 0.5);--tw-gradient-to:rgb(55 65 81 / 0);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.via-transparent{--tw-gradient-to:rgb(0 0 0 / 0);--tw-gradient-stops:var(--tw-gradient-from), transparent, var(--tw-gradient-to)}.bg-center{background-position:center}.stroke-red-500{stroke:#ef4444}.stroke-gray-400{stroke:#9ca3af}.p-6{padding:1.5rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.text-center{text-align:center}.text-right{text-align:right}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.font-semibold{font-weight:600}.leading-relaxed{line-height:1.625}.text-gray-600{--tw-text-opacity:1;color:rgb(75 85 99 / var(--tw-text-opacity))}.text-gray-900{--tw-text-opacity:1;color:rgb(17 24 39 / var(--tw-text-opacity))}.text-gray-500{--tw-text-opacity:1;color:rgb(107 114 128 / var(--tw-text-opacity))}.underline{-webkit-text-decoration-line:underline;text-decoration-line:underline}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-gray-500\/20{--tw-shadow-color:rgb(107 114 128 / 0.2);--tw-shadow:var(--tw-shadow-colored)}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.selection\:bg-red-500 *::selection{--tw-bg-opacity:1;background-color:rgb(239 68 68 / var(--tw-bg-opacity))}.selection\:text-white *::selection{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.selection\:bg-red-500::selection{--tw-bg-opacity:1;background-color:rgb(239 68 68 / var(--tw-bg-opacity))}.selection\:text-white::selection{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.hover\:text-gray-900:hover{--tw-text-opacity:1;color:rgb(17 24 39 / var(--tw-text-opacity))}.hover\:text-gray-700:hover{--tw-text-opacity:1;color:rgb(55 65 81 / var(--tw-text-opacity))}.focus\:rounded-sm:focus{border-radius:0.125rem}.focus\:outline:focus{outline-style:solid}.focus\:outline-2:focus{outline-width:2px}.focus\:outline-red-500:focus{outline-color:#ef4444}.group:hover .group-hover\:stroke-gray-600{stroke:#4b5563}.z-10{z-index: 10}@media (prefers-reduced-motion: no-preference){.motion-safe\:hover\:scale-\[1\.01\]:hover{--tw-scale-x:1.01;--tw-scale-y:1.01;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}}@media (prefers-color-scheme: dark){.dark\:bg-gray-900{--tw-bg-opacity:1;background-color:rgb(17 24 39 / var(--tw-bg-opacity))}.dark\:bg-gray-800\/50{background-color:rgb(31 41 55 / 0.5)}.dark\:bg-red-800\/20{background-color:rgb(153 27 27 / 0.2)}.dark\:bg-dots-lighter{background-image:url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(255,255,255,0.07)'/%3E%3C/svg%3E")}.dark\:bg-gradient-to-bl{background-image:linear-gradient(to bottom left, var(--tw-gradient-stops))}.dark\:stroke-gray-600{stroke:#4b5563}.dark\:text-gray-400{--tw-text-opacity:1;color:rgb(156 163 175 / var(--tw-text-opacity))}.dark\:text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.dark\:shadow-none{--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.dark\:ring-1{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.dark\:ring-inset{--tw-ring-inset:inset}.dark\:ring-white\/5{--tw-ring-color:rgb(255 255 255 / 0.05)}.dark\:hover\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.group:hover .dark\:group-hover\:stroke-gray-400{stroke:#9ca3af}}@media (min-width: 640px){.sm\:fixed{position:fixed}.sm\:top-0{top:0px}.sm\:right-0{right:0px}.sm\:ml-0{margin-left:0px}.sm\:flex{display:flex}.sm\:items-center{align-items:center}.sm\:justify-center{justify-content:center}.sm\:justify-between{justify-content:space-between}.sm\:text-left{text-align:left}.sm\:text-right{text-align:right}}@media (min-width: 768px){.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}}@media (min-width: 1024px){.lg\:gap-8{gap:2rem}.lg\:p-8{padding:2rem}}
-        </style>
-    </head>
-    <body class="antialiased">
-        <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
-            @if (Route::has('login'))
-                <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
-                    @auth
-                        <a href="{{ url('/home') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Home</a>
-                    @else
-                        <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a>
+    <script>
+        (function () {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
-                        @endif
-                    @endauth
+    <style>
+        :root {
+            --primary: #00cec9;
+            --primary-dark: #00b894;
+            --secondary: #0984e3;
+            --dark: #2d3436;
+            --light: #dfe6e9;
+            --white: #ffffff;
+            --bg-page: #f7f9fc;
+            --bg-card: #ffffff;
+            --bg-footer: linear-gradient(to right, #1a1c20, #2d3436);
+            --text-main: #2d3436;
+            --text-muted: #636e72;
+            --border-color: rgba(0, 0, 0, 0.05);
+            --overlay-dark: rgba(0, 0, 0, 0.4);
+            --gradient-hero: linear-gradient(135deg, #0984e3 0%, #00cec9 100%);
+            --glass: rgba(255, 255, 255, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] {
+            --bg-page: #0f172a;
+            --bg-card: #1e293b;
+            --bg-footer: linear-gradient(to right, #020617, #0f172a);
+            --white: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --dark: #f8fafc;
+            --light: #334155;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --glass: rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Utility */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--gradient-hero);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(9, 132, 227, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(9, 132, 227, 0.6);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--white);
+            color: var(--white);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background: var(--white);
+            color: var(--secondary);
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 0;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background: var(--bg-card);
+            padding: 10px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        header.scrolled .logo,
+        header.scrolled .nav-links a {
+            color: var(--text-main);
+        }
+
+        header.scrolled .theme-toggle-btn {
+            background: var(--bg-page);
+            color: var(--text-main);
+            border-color: var(--border-color);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--white);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--white);
+            font-weight: 600;
+            transition: var(--transition);
+            padding: 0.6rem 1.4rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
+        }
+
+        [data-theme="dark"] .nav-links a {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .nav-links a:hover {
+            background: var(--gradient-hero);
+            color: white !important;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 206, 201, 0.4);
+            border-color: transparent;
+        }
+
+        header.scrolled .nav-links a {
+            color: var(--text-main);
+            background: rgba(0, 0, 0, 0.03);
+            border-color: rgba(0, 0, 0, 0.05);
+        }
+
+        [data-theme="dark"] header.scrolled .nav-links a {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn-get-started {
+            background: var(--white);
+            color: var(--secondary);
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-get-started::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-hero);
+            z-index: -1;
+            transition: transform 0.4s ease;
+            transform: scaleX(0);
+            transform-origin: right;
+        }
+
+        .btn-get-started:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .btn-get-started:hover {
+            color: var(--white);
+            box-shadow: 0 4px 20px rgba(0, 206, 201, 0.4);
+        }
+
+        .theme-toggle-btn,
+        .lang-toggle-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--white);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1.2rem;
+            position: relative;
+        }
+
+        .lang-toggle-btn:hover,
+        .theme-toggle-btn:hover {
+            background: var(--gradient-hero);
+            border-color: transparent;
+            transform: scale(1.1);
+        }
+
+        /* Language Dropdown */
+        .lang-dropdown {
+            position: absolute;
+            top: calc(100% + 15px);
+            right: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            width: 180px;
+            padding: 10px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: var(--transition);
+            z-index: 1001;
+            backdrop-filter: blur(15px);
+        }
+
+        .lang-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .lang-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 15px;
+            border-radius: 12px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .lang-option:hover {
+            background: rgba(0, 206, 201, 0.1);
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        [data-theme="dark"] .lang-dropdown {
+            background: rgba(30, 41, 59, 0.8);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        header.scrolled .lang-toggle-btn {
+            background: var(--bg-page);
+            color: var(--text-main);
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .theme-toggle-btn {
+            background: rgba(30, 41, 59, 0.6);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            min-height: 700px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            /* Updated Hero Image */
+            background: url('https://images.unsplash.com/photo-1502791451862-7bd8c1df43a7?q=80&w=2664&auto=format&fit=crop') no-repeat center center/cover;
+            color: var(--white);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--overlay-dark);
+            /* Dark overlay */
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 2rem;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(0, 206, 201, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--primary);
+            border: 1px solid rgba(0, 206, 201, 0.3);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+            animation: fadeInUp 1s ease-out 0.2s backwards;
+        }
+
+        .text-accent {
+            background: linear-gradient(to right, #00cec9, #0984e3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 10px 20px rgba(0, 206, 201, 0.2);
+        }
+
+        .text-primary {
+            color: var(--primary) !important;
+        }
+
+        .text-white {
+            color: #ffffff !important;
+        }
+
+        .hero-text {
+            font-size: 1.25rem;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+            color: rgba(255, 255, 255, 0.85);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 1s ease-out 0.4s backwards;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            animation: fadeInUp 1s ease-out 0.6s backwards;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 0;
+            background: var(--bg-card);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+
+        .feature-card {
+            background: var(--bg-page);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-image {
+            height: 250px;
+            width: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover .feature-image {
+            transform: scale(1.05);
+        }
+
+        .feature-content {
+            padding: 2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .feature-desc {
+            color: #636e72;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-link {
+            margin-top: auto;
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feature-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Modern Grid Layout for "Showcase" */
+        .showcase {
+            padding: 6rem 0;
+            background: var(--bg-page);
+        }
+
+        .showcase-row {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+            margin-bottom: 6rem;
+        }
+
+        .showcase-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .showcase-row:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .showcase-img-wrapper {
+            flex: 1;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .showcase-img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s ease;
+        }
+
+        .showcase-img-wrapper:hover .showcase-img {
+            transform: scale(1.05);
+        }
+
+        .showcase-text {
+            flex: 1;
+        }
+
+        .showcase-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-hero);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .showcase-p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #636e72;
+            margin-bottom: 2rem;
+        }
+
+        /* Modern Footer */
+        footer {
+            background: var(--bg-footer);
+            color: #bdc3c7;
+            padding: 5rem 0 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-hero);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .footer-col-right {
+            text-align: right;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            background: var(--gradient-hero);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .footer-desc {
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            max-width: 300px;
+        }
+
+        .footer-col h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+            letter-spacing: 0.5px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 1rem;
+        }
+
+        .footer-col ul li a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-icon:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+            color: #636e72;
+        }
+
+        @media (max-width: 900px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .showcase-row {
+                flex-direction: column;
+            }
+
+            .showcase-row:nth-child(even) {
+                flex-direction: column;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            /* Hide nav on mobile for simplicity */
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .footer-col-right {
+                text-align: center;
+            }
+
+            .footer-desc {
+                margin: 0 auto 2rem;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+
+            .footer-logo {
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">
+                    <img src="{{ asset('images/logo.png') }}" alt="Just Travel"
+                        style="height: 50px; border-radius: 8px;">
+                </a>
+                <div class="nav-links">
+                    <a href="{{ url('/') }}" data-t="nav_home">Home</a>
+                    <a href="{{ route('home') }}" data-t="nav_flights">Flights</a>
+                    <a href="{{ route('ai.chat') }}" data-t="nav_ai">AI Planner</a>
                 </div>
-            @endif
 
-            <div class="max-w-7xl mx-auto p-6 lg:p-8">
-                <div class="flex justify-center">
-                    <svg viewBox="0 0 62 65" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-16 w-auto bg-gray-100 dark:bg-gray-900">
-                        <path d="M61.8548 14.6253C61.8778 14.7102 61.8895 14.7978 61.8897 14.8858V28.5615C61.8898 28.737 61.8434 28.9095 61.7554 29.0614C61.6675 29.2132 61.5409 29.3392 61.3887 29.4265L49.9104 36.0351V49.1337C49.9104 49.4902 49.7209 49.8192 49.4118 49.9987L25.4519 63.7916C25.3971 63.8227 25.3372 63.8427 25.2774 63.8639C25.255 63.8714 25.2338 63.8851 25.2101 63.8913C25.0426 63.9354 24.8666 63.9354 24.6991 63.8913C24.6716 63.8838 24.6467 63.8689 24.6205 63.8589C24.5657 63.8389 24.5084 63.8215 24.456 63.7916L0.501061 49.9987C0.348882 49.9113 0.222437 49.7853 0.134469 49.6334C0.0465019 49.4816 0.000120578 49.3092 0 49.1337L0 8.10652C0 8.01678 0.0124642 7.92953 0.0348998 7.84477C0.0423783 7.8161 0.0598282 7.78993 0.0697995 7.76126C0.0884958 7.70891 0.105946 7.65531 0.133367 7.6067C0.152063 7.5743 0.179485 7.54812 0.20192 7.51821C0.230588 7.47832 0.256763 7.43719 0.290416 7.40229C0.319084 7.37362 0.356476 7.35243 0.388883 7.32751C0.425029 7.29759 0.457436 7.26518 0.498568 7.2415L12.4779 0.345059C12.6296 0.257786 12.8015 0.211853 12.9765 0.211853C13.1515 0.211853 13.3234 0.257786 13.475 0.345059L25.4531 7.2415H25.4556C25.4955 7.26643 25.5292 7.29759 25.5653 7.32626C25.5977 7.35119 25.6339 7.37362 25.6625 7.40104C25.6974 7.43719 25.7224 7.47832 25.7523 7.51821C25.7735 7.54812 25.8021 7.5743 25.8196 7.6067C25.8483 7.65656 25.8645 7.70891 25.8844 7.76126C25.8944 7.78993 25.9118 7.8161 25.9193 7.84602C25.9423 7.93096 25.954 8.01853 25.9542 8.10652V33.7317L35.9355 27.9844V14.8846C35.9355 14.7973 35.948 14.7088 35.9704 14.6253C35.9792 14.5954 35.9954 14.5692 36.0053 14.5405C36.0253 14.4882 36.0427 14.4346 36.0702 14.386C36.0888 14.3536 36.1163 14.3274 36.1375 14.2975C36.1674 14.2576 36.1923 14.2165 36.2272 14.1816C36.2559 14.1529 36.292 14.1317 36.3244 14.1068C36.3618 14.0769 36.3942 14.0445 36.4341 14.0208L48.4147 7.12434C48.5663 7.03694 48.7383 6.99094 48.9133 6.99094C49.0883 6.99094 49.2602 7.03694 49.4118 7.12434L61.3899 14.0208C61.4323 14.0457 61.4647 14.0769 61.5021 14.1055C61.5333 14.1305 61.5694 14.1529 61.5981 14.1803C61.633 14.2165 61.6579 14.2576 61.6878 14.2975C61.7103 14.3274 61.7377 14.3536 61.7551 14.386C61.7838 14.4346 61.8 14.4882 61.8199 14.5405C61.8312 14.5692 61.8474 14.5954 61.8548 14.6253ZM59.893 27.9844V16.6121L55.7013 19.0252L49.9104 22.3593V33.7317L59.8942 27.9844H59.893ZM47.9149 48.5566V37.1768L42.2187 40.4299L25.953 49.7133V61.2003L47.9149 48.5566ZM1.99677 9.83281V48.5566L23.9562 61.199V49.7145L12.4841 43.2219L12.4804 43.2194L12.4754 43.2169C12.4368 43.1945 12.4044 43.1621 12.3682 43.1347C12.3371 43.1097 12.3009 43.0898 12.2735 43.0624L12.271 43.0586C12.2386 43.0275 12.2162 42.9888 12.1887 42.9539C12.1638 42.9203 12.1339 42.8916 12.114 42.8567L12.1127 42.853C12.0903 42.8156 12.0766 42.7707 12.0604 42.7283C12.0442 42.6909 12.023 42.656 12.013 42.6161C12.0005 42.5688 11.998 42.5177 11.9931 42.4691C11.9881 42.4317 11.9781 42.3943 11.9781 42.3569V15.5801L6.18848 12.2446L1.99677 9.83281ZM12.9777 2.36177L2.99764 8.10652L12.9752 13.8513L22.9541 8.10527L12.9752 2.36177H12.9777ZM18.1678 38.2138L23.9574 34.8809V9.83281L19.7657 12.2459L13.9749 15.5801V40.6281L18.1678 38.2138ZM48.9133 9.14105L38.9344 14.8858L48.9133 20.6305L58.8909 14.8846L48.9133 9.14105ZM47.9149 22.3593L42.124 19.0252L37.9323 16.6121V27.9844L43.7219 31.3174L47.9149 33.7317V22.3593ZM24.9533 47.987L39.59 39.631L46.9065 35.4555L36.9352 29.7145L25.4544 36.3242L14.9907 42.3482L24.9533 47.987Z" fill="#FF2D20"/>
-                    </svg>
-                </div>
-
-                <div class="mt-16">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-                        <a href="https://laravel.com/docs" class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
-                            <div>
-                                <div class="h-16 w-16 bg-red-50 dark:bg-red-800/20 flex items-center justify-center rounded-full">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-7 h-7 stroke-red-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
-                                    </svg>
-                                </div>
-
-                                <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Documentation</h2>
-
-                                <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                    Laravel has wonderful documentation covering every aspect of the framework. Whether you are a newcomer or have prior experience with Laravel, we recommend reading our documentation from beginning to end.
-                                </p>
+                <div class="nav-actions">
+                    <div style="position: relative;">
+                        <button id="langToggle" class="lang-toggle-btn" title="Choose Language">
+                            <i class="fa-solid fa-globe"></i>
+                        </button>
+                        <div id="langDropdown" class="lang-dropdown">
+                            <div class="lang-option" onclick="changeLang('en')">
+                                <img src="https://flagcdn.com/w20/gb.png" width="20" alt="EN"> English
                             </div>
-
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="self-center shrink-0 stroke-red-500 w-6 h-6 mx-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
-                            </svg>
-                        </a>
-
-                        <a href="https://laracasts.com" class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
-                            <div>
-                                <div class="h-16 w-16 bg-red-50 dark:bg-red-800/20 flex items-center justify-center rounded-full">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-7 h-7 stroke-red-500">
-                                        <path stroke-linecap="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" />
-                                    </svg>
-                                </div>
-
-                                <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Laracasts</h2>
-
-                                <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                    Laracasts offers thousands of video tutorials on Laravel, PHP, and JavaScript development. Check them out, see for yourself, and massively level up your development skills in the process.
-                                </p>
+                            <div class="lang-option" onclick="changeLang('ar')">
+                                <img src="https://flagcdn.com/w20/ae.png" width="20" alt="AR"> العربية
                             </div>
-
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="self-center shrink-0 stroke-red-500 w-6 h-6 mx-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
-                            </svg>
-                        </a>
-
-                        <a href="https://laravel-news.com" class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
-                            <div>
-                                <div class="h-16 w-16 bg-red-50 dark:bg-red-800/20 flex items-center justify-center rounded-full">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-7 h-7 stroke-red-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z" />
-                                    </svg>
-                                </div>
-
-                                <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Laravel News</h2>
-
-                                <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                    Laravel News is a community driven portal and newsletter aggregating all of the latest and most important news in the Laravel ecosystem, including new package releases and tutorials.
-                                </p>
+                            <div class="lang-option" onclick="changeLang('ru')">
+                                <img src="https://flagcdn.com/w20/ru.png" width="20" alt="RU"> Russian
                             </div>
-
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="self-center shrink-0 stroke-red-500 w-6 h-6 mx-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
-                            </svg>
-                        </a>
-
-                        <div class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
-                            <div>
-                                <div class="h-16 w-16 bg-red-50 dark:bg-red-800/20 flex items-center justify-center rounded-full">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-7 h-7 stroke-red-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.115 5.19l.319 1.913A6 6 0 008.11 10.36L9.75 12l-.387.775c-.217.433-.132.956.21 1.298l1.348 1.348c.21.21.329.497.329.795v1.089c0 .426.24.815.622 1.006l.153.076c.433.217.956.132 1.298-.21l.723-.723a8.7 8.7 0 002.288-4.042 1.087 1.087 0 00-.358-1.099l-1.33-1.108c-.251-.21-.582-.299-.905-.245l-1.17.195a1.125 1.125 0 01-.98-.314l-.295-.295a1.125 1.125 0 010-1.591l.13-.132a1.125 1.125 0 011.3-.21l.603.302a.809.809 0 001.086-1.086L14.25 7.5l1.256-.837a4.5 4.5 0 001.528-1.732l.146-.292M6.115 5.19A9 9 0 1017.18 4.64M6.115 5.19A8.965 8.965 0 0112 3c1.929 0 3.716.607 5.18 1.64" />
-                                    </svg>
-                                </div>
-
-                                <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Vibrant Ecosystem</h2>
-
-                                <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                    Laravel's robust library of first-party tools and libraries, such as <a href="https://forge.laravel.com" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Forge</a>, <a href="https://vapor.laravel.com" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Vapor</a>, <a href="https://nova.laravel.com" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Nova</a>, and <a href="https://envoyer.io" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Envoyer</a> help you take your projects to the next level. Pair them with powerful open source libraries like <a href="https://laravel.com/docs/billing" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Cashier</a>, <a href="https://laravel.com/docs/dusk" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dusk</a>, <a href="https://laravel.com/docs/broadcasting" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Echo</a>, <a href="https://laravel.com/docs/horizon" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Horizon</a>, <a href="https://laravel.com/docs/sanctum" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Sanctum</a>, <a href="https://laravel.com/docs/telescope" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Telescope</a>, and more.
-                                </p>
+                            <div class="lang-option" onclick="changeLang('zh')">
+                                <img src="https://flagcdn.com/w20/cn.png" width="20" alt="ZH"> Chinese
+                            </div>
+                            <div class="lang-option" onclick="changeLang('fr')">
+                                <img src="https://flagcdn.com/w20/fr.png" width="20" alt="FR"> French
                             </div>
                         </div>
                     </div>
+                    <button id="themeToggle" class="theme-toggle-btn" title="Toggle Dark/Light Mode">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+                    @if (Route::has('login'))
+                        @if(Auth::guard('flutter_web')->check())
+                            <a href="{{ url('/home') }}" class="btn btn-get-started">Get Started</a>
+                        @else
+                            <a href="{{ route('login') }}" class="btn btn-get-started">Get Started</a>
+                        @endif
+                    @else
+                        {{-- Fallback for Voyager Admin if standard auth is missing --}}
+                        <a href="{{ url('/admin/login') }}" class="btn btn-get-started" data-t="btn_get_started">Get
+                            Started</a>
+                    @endif
                 </div>
+            </nav>
+        </div>
+    </header>
 
-                <div class="flex justify-center mt-16 px-0 sm:items-center sm:justify-between">
-                    <div class="text-center text-sm sm:text-left">
-                        &nbsp;
-                    </div>
-
-                    <div class="text-center text-sm text-gray-500 dark:text-gray-400 sm:text-right sm:ml-0">
-                        Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
-                    </div>
-                </div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <span class="hero-badge" data-t="hero_badge">AI-Powered Travel</span>
+            <h1 class="hero-title">
+                <span data-t="hero_title_p1">Explore the</span> <span class="text-primary"
+                    data-t="hero_title_p2">World</span>
+                <br>
+                <span class="text-accent" data-t="hero_title_p3">Intelligently</span>
+            </h1>
+            <p class="hero-text" data-t="hero_desc_new">Plan your perfect trip with our advanced AI travel assistant.
+                Flights, hotels, and experiences curated just for you.</p>
+            <div class="hero-buttons">
+                @if (Route::has('login'))
+                    <a href="{{ route('login') }}" class="btn btn-primary" data-t="btn_start">Start Your Journey</a>
+                @else
+                    <a href="{{ route('home') }}" class="btn btn-primary" data-t="btn_start">Start Your Journey</a>
+                @endif
+                <a href="#features" class="btn btn-outline" data-t="btn_learn">Learn More</a>
             </div>
         </div>
-    </body>
+    </section>
+
+    <!-- Showcase Section -->
+    <section class="showcase" id="features">
+        <div class="container">
+
+            <!-- AI Planner -->
+            <div class="showcase-row">
+                <div class="showcase-img-wrapper">
+                    <img src="{{ asset('images/section1.jpg') }}" alt="AI Robot" class="showcase-img">
+                </div>
+                <div class="showcase-text">
+                    <h2 class="showcase-title" data-t="f1_title">Your Personal AI Guide</h2>
+                    <p class="showcase-p" data-t="f1_desc">
+                        Meet <strong>JustMine</strong>, your smart travel companion using Gemini AI.
+                        Simply chat to discover hidden gems, get weather-based suggestions, and build custom itineraries
+                        in seconds.
+                    </p>
+                    <a href="{{ route('ai.chat') }}" class="btn btn-primary" data-t="btn_ai">Try AI Chat</a>
+                </div>
+            </div>
+
+            <!-- Flights & Data -->
+            <div class="showcase-row">
+                <div class="showcase-img-wrapper">
+                    <img src="{{ asset('images/section2.jpg') }}" alt="Flights" class="showcase-img">
+                </div>
+                <div class="showcase-text">
+                    <h2 class="showcase-title" data-t="f2_title">Smart Flight Search</h2>
+                    <p class="showcase-p" data-t="f2_desc">
+                        Access real-time data for flights, airports, and car rentals.
+                        Our comprehensive search engine connects you to thousands of destinations with the best rates
+                        and easiest booking flow.
+                    </p>
+                    <a href="{{ route('home') }}" class="btn btn-primary" data-t="btn_flights">Browse Flights</a>
+                </div>
+            </div>
+
+            <!-- Feedback & Community (App) -->
+            <div class="showcase-row">
+                <div class="showcase-img-wrapper">
+                    <img src="{{ asset('images/section3.jpg') }}" alt="Mobile App" class="showcase-img">
+                </div>
+                <div class="showcase-text">
+                    <h2 class="showcase-title" data-t="f3_title">Seamless Mobile Experience</h2>
+                    <p class="showcase-p" data-t="f3_desc">
+                        Take Just Travel with you. Our mobile-first design ensures you can manage your bookings,
+                        give feedback, and update your profile on the go.
+                    </p>
+                    <a href="#" class="btn btn-primary" data-t="btn_app">Get the App</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <a href="{{ url('/') }}" class="footer-logo">Just Travel.</a>
+                    <p class="footer-desc">
+                        Revolutionizing travel planning with the power of Artificial Intelligence.
+                        Your journey starts with a simple conversation.
+                    </p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/share/1A972y5gPs/" target="_blank" class="social-icon">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/just_travel79?igsh=aTBwYmE3NjIydjJx&utm_source=qr"
+                            target="_blank" class="social-icon">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@just.travel64?_r=1&_t=ZS-92IN2aGJYNI" target="_blank"
+                            class="social-icon">
+                            <i class="fa-brands fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-col footer-col-right">
+                    <h4 data-t="footer_legal">Legal</h4>
+                    <ul>
+                        <li><a href="{{ route('privacy') }}" data-t="footer_privacy">Privacy Policy</a></li>
+                        <li><a href="{{ route('contact') }}" data-t="footer_contact">Contact Us</a></li>
+                        <li><a href="{{ route('terms') }}" data-t="footer_terms">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; {{ date('Y') }} Just Travel Inc. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const langToggle = document.getElementById('langToggle');
+        const langDropdown = document.getElementById('langDropdown');
+        const sunIcon = '<i class="fa-solid fa-sun"></i>';
+        const moonIcon = '<i class="fa-solid fa-moon"></i>';
+
+        // Sound Synthesis for interaction
+        function playClickSound() {
+            const context = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = context.createOscillator();
+            const gain = context.createGain();
+
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(800, context.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(100, context.currentTime + 0.1);
+
+            gain.gain.setValueAtTime(0.3, context.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, context.currentTime + 0.1);
+
+            oscillator.connect(gain);
+            gain.connect(context.destination);
+
+            oscillator.start();
+            oscillator.stop(context.currentTime + 0.1);
+        }
+
+        // Check for saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        themeToggle.innerHTML = savedTheme === 'dark' ? sunIcon : moonIcon;
+
+        themeToggle.addEventListener('click', () => {
+            playClickSound();
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+
+            // Update icon
+            themeToggle.innerHTML = newTheme === 'dark' ? sunIcon : moonIcon;
+
+            // Subtle pulse animation
+            themeToggle.classList.add('pulse');
+            setTimeout(() => themeToggle.classList.remove('pulse'), 500);
+        });
+
+        const langDictionary = {
+            en: {
+                btn_get_started: "Get Started",
+                hero_accent: "Elevate Your Travel Experience",
+                hero_title: 'Your Journey Starts with <span class="hero-accent">Artificial Intelligence</span>',
+                hero_desc: "Revolutionizing travel planning with the power of Artificial Intelligence. Your journey starts with a simple conversation.",
+                btn_start_journey: "Start Your Journey",
+                btn_learn_more: "Learn More",
+                f1_title: "Your Personal AI Guide",
+                f1_desc: "Meet <strong>JustMine</strong>, your smart travel companion using Gemini AI. Simply chat to discover hidden gems, get weather-based suggestions, and build custom itineraries in seconds.",
+                btn_ai: "Try AI Chat",
+                f2_title: "Smart Flight Search",
+                f2_desc: "Access real-time data for flights, airports, and car rentals. Our comprehensive search engine connects you to thousands of destinations with the best rates and easiest booking flow.",
+                btn_flights: "Browse Flights",
+                f3_title: "Seamless Mobile Experience",
+                f3_desc: "Take Just Travel with you. Our mobile-first design ensures you can manage bookings and profile on the go.",
+                btn_app: "Get the App",
+                footer_legal: "Legal",
+                footer_privacy: "Privacy Policy",
+                footer_contact: "Contact Us",
+                footer_terms: "Terms of Service"
+            },
+            ar: {
+                nav_home: "الرئيسية",
+                nav_flights: "الرحلات",
+                nav_ai: "مخطط الذكاء الاصطناعي",
+                btn_get_started: "ابدأ الآن",
+                hero_badge: "سفر مدعوم بالذكاء الاصطناعي",
+                hero_title_p1: "استكشف",
+                hero_title_p2: "العالم",
+                hero_title_p3: "بذكاء",
+                hero_desc_new: "خطط لرحلتك المثالية مع مساعد السفر المتقدم بالذكاء الاصطناعي. رحلات جوية، فنادق، وتجارب منسقة خصيصًا لك.",
+                btn_start: "ابدأ رحلتك",
+                btn_learn: "تعرف على المزيد",
+                f1_title: "دليلك الشخصي بالذكاء الاصطناعي",
+                f1_desc: "تعرف على JustMine، رفيقك الذكي في السفر باستخدام Gemini AI. دردش ببساطة لاكتشاف الجواهر الخفية وبناء مسارات مخصصة.",
+                btn_ai: "جرب الدردشة كشفيًا",
+                f2_title: "بحث ذكي عن الرحلات",
+                f2_desc: "الوصول إلى بيانات فورية للرحلات والمطارات وتأجير السيارات مع ضمان أفضل الأسعار.",
+                btn_flights: "تصفح الرحلات",
+                f3_title: "تجربة هاتف محمولة سلسة",
+                f3_desc: "خذ Just Travel معك. يضمن تصميمنا الموجه للهواتف إدارة حجوزاتك وحسابك أثناء التنقل.",
+                btn_app: "احصل على التطبيق",
+                footer_legal: "قانوني",
+                footer_privacy: "سياسة الخصوصية",
+                footer_contact: "اتصل بنا",
+                footer_terms: "شروط الخدمة"
+            },
+            zh: {
+                nav_home: "主页",
+                nav_flights: "航班",
+                nav_ai: "AI 规划师",
+                btn_get_started: "立即开始",
+                hero_accent: "提升您的旅行体验",
+                hero_title: '您的旅程从<span class="hero-accent">人工智能</span>开始',
+                hero_desc: "利用人工智能的力量彻底改变旅行规划。您的旅程从简单的对话开始。",
+                btn_start_journey: "开始您的旅程",
+                btn_learn_more: "了解更多",
+                f1_title: "您的个人 AI 向导",
+                f1_desc: "认识 <strong>JustMine</strong>，您的智能旅行伴侣，由 Gemini AI 提供支持。只需聊天即可发现隐藏的宝石，获取基于天气的建议，并在几秒钟内构建自定义行程。",
+                btn_ai: "尝试 AI 聊天",
+                f2_title: "智能航班搜索",
+                f2_desc: "访问航班、机场和汽车租赁的实时数据。我们的综合搜索引擎将您连接到数千个目的地，提供最优惠的价格和最简单的预订流程。",
+                btn_flights: "浏览航班",
+                f3_title: "无缝移动体验",
+                f3_desc: "随身携带 Just Travel。我们的移动优先设计确保您可以随时随地管理预订和个人资料。",
+                btn_app: "获取应用",
+                footer_legal: "法律",
+                footer_privacy: "隐私政策",
+                footer_contact: "联系我们",
+                footer_terms: "服务条款",
+                hero_badge: "AI 驱动的旅行",
+                hero_title_p1: "探索",
+                hero_title_p2: "世界",
+                hero_title_p3: "智能地",
+                hero_desc_new: "与高级 AI 旅行助手一起规划您的完美旅程。专门为您策划的航班、酒店和体验。",
+                btn_start: "开始您的旅程",
+                btn_learn: "了解更多"
+            },
+            ru: {
+                nav_home: "Главная",
+                nav_flights: "Рейсы",
+                nav_ai: "AI Планировщик",
+                btn_get_started: "Начать",
+                hero_badge: "Путешествия с AI",
+                hero_title_p1: "Исследуй",
+                hero_title_p2: "Мир",
+                hero_title_p3: "Разумно",
+                hero_desc_new: "Планируйте идеальное путешествие с нашим продвинутым AI-ассистентом. Рейсы, отели и впечатления, подобранные специально для вас.",
+                btn_start: "Начать путешествие",
+                btn_learn: "Узнать больше",
+                f1_title: "Ваш личный AI-гид",
+                f1_desc: "Встречайте <strong>JustMine</strong>, вашего умного спутника с Gemini AI. Просто общайтесь, чтобы найти скрытые жемчужины и создать маршрут за секунды.",
+                btn_ai: "Попробовать AI чат",
+                f2_title: "Умный поиск рейсов",
+                f2_desc: "Доступ к реальным данным о рейсах, аэропортах и аренде авто. Наш поиск соединяет вас с тысячами направлений по лучшим ценам.",
+                btn_flights: "Смотреть рейсы",
+                f3_title: "Удобство на мобильных",
+                f3_desc: "Возьмите Just Travel с собой. Наш мобильный дизайн позволяет управлять бронированиями и профилем на ходу.",
+                btn_app: "Скачать приложение",
+                footer_legal: "Правовая информация",
+                footer_privacy: "Политика конфиденциальности",
+                footer_contact: "Контакты",
+                footer_contact: "Контакты",
+                footer_terms: "Условия использования"
+            },
+            fr: {
+                nav_home: "Accueil",
+                nav_flights: "Vols",
+                nav_ai: "Planificateur IA",
+                btn_get_started: "Commencer",
+                hero_badge: "Voyage propulsé par l'IA",
+                hero_title_p1: "Explorez",
+                hero_title_p2: "le Monde",
+                hero_title_p3: "Intelligemment",
+                hero_desc_new: "Planifiez votre voyage parfait avec notre assistant de voyage IA avancé. Vols, hôtels et expériences sélectionnés juste pour vous.",
+                btn_start: "Commencez votre voyage",
+                btn_learn: "En savoir plus",
+                f1_title: "Votre guide IA personnel",
+                f1_desc: "Rencontrez <strong>JustMine</strong>, votre compagnon de voyage intelligent utilisant Gemini AI. Discutez simplement pour découvrir des joyaux cachés, obtenir des suggestions basées sur la météo et créer des itinéraires personnalisés en quelques secondes.",
+                btn_ai: "Essayer le chat IA",
+                f2_title: "Recherche de vol intelligente",
+                f2_desc: "Accédez aux données en temps réel pour les vols, les aéroports et les locations de voitures. Notre moteur de recherche complet vous connecte à des milliers de destinations avec les meilleurs tarifs et le flux de réservation le plus simple.",
+                btn_flights: "Parcourir les vols",
+                f3_title: "Expérience mobile fluide",
+                f3_desc: "Emportez Just Travel avec vous. Notre conception mobile-first garantit que vous pouvez gérer vos réservations et votre profil lors de vos déplacements.",
+                btn_app: "Obtenir l'application",
+                footer_legal: "Légal",
+                footer_privacy: "Politique de confidentialité",
+                footer_contact: "Contactez-nous",
+                footer_terms: "Conditions d'utilisation"
+            }
+        };
+
+        function changeLang(lang) {
+            playClickSound();
+            localStorage.setItem('lang', lang);
+            applyLang(lang);
+            langDropdown.classList.remove('active');
+        }
+
+        function applyLang(lang) {
+            document.documentElement.setAttribute('lang', lang);
+            document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+
+            if (langDictionary[lang]) {
+                document.querySelectorAll('[data-t]').forEach(el => {
+                    const key = el.getAttribute('data-t');
+                    if (langDictionary[lang][key]) {
+                        el.innerHTML = langDictionary[lang][key];
+                    }
+                });
+            }
+        }
+
+        // Initialize language
+        const savedLang = localStorage.getItem('lang') || 'en';
+        applyLang(savedLang);
+
+        // Language Dropdown Logic
+        langToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            playClickSound();
+            langDropdown.classList.toggle('active');
+        });
+
+        document.addEventListener('click', () => {
+            langDropdown.classList.remove('active');
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+<!-- 
+    Note to User:
+    The images used are placeholders from Unsplash.
+    To use your uploaded images, place them in the public folder (e.g., public/img/robot.jpg)
+    and update the src attributes in this file logic.
+-->
+
 </html>

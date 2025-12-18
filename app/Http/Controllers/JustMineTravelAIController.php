@@ -7,72 +7,87 @@ use Illuminate\Support\Facades\Http;
 
 class JustMineTravelAIController extends Controller
 {
-   public function suggestDestinations(Request $request)
-{
-    $weather = $request->input('weather');
+    public function index()
+    {
+        return view('browse', ['activeTab' => 'ai', 'items' => []]);
+    }
 
-    $prompt = "Suggest 4 international cities that are perfect for \"$weather\" weather. Reply ONLY with a raw JSON array like [\"Paris\", \"Dubai\", \"Miami\", \"Tokyo\"] without any explanation.";
+    public function suggestDestinations(Request $request)
+    {
+        $weather = $request->input('weather');
 
-    $response = Http::withHeaders([
-        'Authorization' => 'Bearer ' . env('OPENAI_SECRET_KEY'),
-    ])->post('https://api.openai.com/v1/chat/completions', [
-        'model' => 'gpt-4o',
-        'messages' => [
-            ['role' => 'user', 'content' => $prompt]
-        ],
-        'temperature' => 0.7,
-    ]);
+        $prompt = "Suggest 4 international cities that are perfect for \"$weather\" weather. Reply ONLY with a raw JSON array of strings like [\"City 1\", \"City 2\"] without markdown formatting.";
 
-    if ($response->successful()) {
-        $content = $response->json()['choices'][0]['message']['content'];
+        $apiKey = config('services.gemini.key');
+        $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-latest:generateContent?key={$apiKey}";
 
-        // استخراج الJSON من الرد إن كان فيه شرح زائد بالغلط
-        $start = strpos($content, '[');
-        $end = strrpos($content, ']');
-        $json = substr($content, $start, $end - $start + 1);
+        try {
+            $response = Http::withHeaders(['Content-Type' => 'application/json'])
+                ->post($url, [
+                    'contents' => [['parts' => [['text' => $prompt]]]],
+                    'generationConfig' => ['temperature' => 0.7]
+                ]);
 
-        $suggestions = json_decode($json, true);
+            if ($response->successful()) {
+                $candidates = $response->json()['candidates'] ?? [];
+                if (!empty($candidates)) {
+                    $text = $candidates[0]['content']['parts'][0]['text'] ?? '';
 
-        if (is_array($suggestions)) {
-            return response()->json(['destinations' => $suggestions]);
+                    // Clean Markdown
+                    $text = preg_replace('/^```json\s*|```\s*$/', '', trim($text));
+                    $text = preg_replace('/^```\s*|```\s*$/', '', $text);
+
+                    // Find JSON array brackets
+                    $start = strpos($text, '[');
+                    $end = strrpos($text, ']');
+
+                    if ($start !== false && $end !== false) {
+                        $json = substr($text, $start, $end - $start + 1);
+                        $suggestions = json_decode($json, true);
+
+                        if (is_array($suggestions)) {
+                            return response()->json(['destinations' => $suggestions]);
+                        }
+                    }
+                }
+            }
+            return response()->json(['destinations' => []]); // Return empty if failed, handled by frontend
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
-    return response()->json(['error' => 'Failed to get destinations.'], 500);
-}
-
-
     public function generate(Request $request)
-{
-    $questions = [
-        '1. What is your preferred weather?',               // 0
-        '2. Destination (choose one of the suggestions)',   // 1
-        '3. What is your approximate budget?',              // 2
-        '4. Departure city?',                               // 3
-        '5. Preferred type of accommodation?',              // 4
-        '6. Preferred means of transportation during the trip?', // 5
-        '7. Any preferred type of food or cuisine?',        // 6
-        '8. Duration of the trip?',                         // 7
-        '9. What is your main purpose for this trip?',      // 8
-        '10. How many people are traveling with you?',      // 9
-        '11. Should we recommend the cheapest flight or a specific airline?' // 10
-    ];
+    {
+        $questions = [
+            '1. What is your preferred weather?',               // 0
+            '2. Destination (choose one of the suggestions)',   // 1
+            '3. What is your approximate budget?',              // 2
+            '4. Departure city?',                               // 3
+            '5. Preferred type of accommodation?',              // 4
+            '6. Preferred means of transportation during the trip?', // 5
+            '7. Any preferred type of food or cuisine?',        // 6
+            '8. Duration of the trip?',                         // 7
+            '9. What is your main purpose for this trip?',      // 8
+            '10. How many people are traveling with you?',      // 9
+            '11. Should we recommend the cheapest flight or a specific airline?' // 10
+        ];
 
-    $answers = $request->input('answers');
+        $answers = $request->input('answers');
 
-    if (!is_array($answers) || count($answers) !== count($questions)) {
-        return response()->json(['error' => 'Invalid or incomplete answers.'], 422);
-    }
+        if (!is_array($answers) || count($answers) !== count($questions)) {
+            return response()->json(['error' => 'Invalid or incomplete answers.'], 422);
+        }
 
-    // نفس منطقك القديم
-    $combinedAnswers = implode(' ', $answers);
-    $language = $this->detectLanguage($combinedAnswers);
+        // نفس منطقك القديم
+        $combinedAnswers = implode(' ', $answers);
+        $language = $this->detectLanguage($combinedAnswers);
 
-    // نستخدم المدينة ومدة الرحلة عشان الـ events
-    $destination = $answers[1] ?? '';
-    $tripDuration = $answers[7] ?? '';
+        // نستخدم المدينة ومدة الرحلة عشان الـ events
+        $destination = $answers[1] ?? '';
+        $tripDuration = $answers[7] ?? '';
 
-    $prompt = <<<EOT
+        $prompt = <<<EOT
 You are a smart travel agent. Based on the user's answers below, generate a full travel plan with the following:
 
 1. Match the departure city and destination correctly (never make them the same).
@@ -97,31 +112,53 @@ Please reply in {$language} language.
 
 EOT;
 
-    // نضيف الأسئلة + الأجوبة كما هي بدون ما نزيد عليهم سؤال جديد
-    foreach ($questions as $index => $question) {
-        $answer = $answers[$index] ?? '';
-        $prompt .= "\n" . ($index + 1) . ". " . $question . " " . $answer;
+        // نضيف الأسئلة + الأجوبة كما هي بدون ما نزيد عليهم سؤال جديد
+        foreach ($questions as $index => $question) {
+            $answer = $answers[$index] ?? '';
+            $prompt .= "\n" . ($index + 1) . ". " . $question . " " . $answer;
+        }
+
+        $apiKey = config('services.gemini.key');
+        $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-latest:generateContent?key={$apiKey}";
+
+        try {
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json',
+            ])->timeout(120) // Increase timeout to 120 seconds for full generation
+                ->post($url, [
+                    'contents' => [
+                        [
+                            'parts' => [
+                                ['text' => $prompt]
+                            ]
+                        ]
+                    ],
+                    'generationConfig' => [
+                        'temperature' => 0.8,
+                    ]
+                ]);
+
+            if ($response->successful()) {
+                $candidates = $response->json()['candidates'] ?? [];
+                if (!empty($candidates)) {
+                    return response()->json([
+                        'reply' => $candidates[0]['content']['parts'][0]['text'] ?? ''
+                    ]);
+                }
+            }
+
+            return response()->json([
+                'error' => 'Gemini API Error',
+                'details' => $response->json()
+            ], $response->status());
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Server Error',
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
-
-    $response = Http::withHeaders([
-        'Authorization' => 'Bearer ' . env('OPENAI_SECRET_KEY'),
-    ])->post('https://api.openai.com/v1/chat/completions', [
-        'model' => 'gpt-4o',
-        'messages' => [
-            ['role' => 'user', 'content' => $prompt]
-        ],
-        'temperature' => 0.8,
-    ]);
-
-    if ($response->successful()) {
-        return response()->json([
-            'reply' => $response->json()['choices'][0]['message']['content']
-        ]);
-    }
-
-    return response()->json(['error' => 'Failed to generate travel plan.'], 500);
-    }
-
 
     private function detectLanguage($text)
     {

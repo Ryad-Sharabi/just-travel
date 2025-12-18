@@ -2,32 +2,32 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Auth\Events\Verified;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\Api\AirportController;
 use App\Http\Controllers\Api\CarController;
 use App\Http\Controllers\Api\FlightController;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\FlutterAuthController;
 use App\Http\Controllers\JustMineTravelAIController;
 use App\Http\Controllers\FeedbackController;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Auth\Events\Verified;
 use App\Models\FlutterUser;
 
 
 
 Route::post('/flutter/login', [FlutterAuthController::class, 'login']);
 Route::post('/flutter/register', [FlutterAuthController::class, 'register']);
-Route::post('/password/send-code', [FlutterAuthController::class,'sendResetCode']);
-Route::post('/password/confirm',   [FlutterAuthController::class,'resetPasswordWithCode']);
+Route::post('/password/send-code', [FlutterAuthController::class, 'sendResetCode']);
+Route::post('/password/confirm', [FlutterAuthController::class, 'resetPasswordWithCode']);
 Route::get('/email/verify/{id}/{hash}', function (Request $request, $id, $hash) {
     $user = FlutterUser::findOrFail($id);
 
     // تحقّق من الهاش
-    if (! hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
+    if (!hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
         return response()
             ->view('verification.error', [
-                'title'   => 'Invalid verification link',
+                'title' => 'Invalid verification link',
                 'heading' => 'Verification link is not valid',
                 'message' => 'The link you used is invalid or expired. Please request a new one.',
                 'cta_url' => url('https://justtravel.pro/login'), // غيّرها إذا بدّك
@@ -39,7 +39,7 @@ Route::get('/email/verify/{id}/{hash}', function (Request $request, $id, $hash) 
     if ($user->hasVerifiedEmail()) {
         return response()
             ->view('verification.already', [
-                'title'   => 'Email already verified',
+                'title' => 'Email already verified',
                 'heading' => 'Your email is already verified',
                 'message' => 'You can sign in and continue.',
                 'cta_url' => url('https://justtravel.pro/login'), // غيّرها مثلاً لصفحة تسجيل الدخول
@@ -55,7 +55,7 @@ Route::get('/email/verify/{id}/{hash}', function (Request $request, $id, $hash) 
     // نجاح ✅
     return response()
         ->view('verification.success', [
-            'title'   => 'Email verified',
+            'title' => 'Email verified',
             'heading' => 'Congratulations — your email verified successfully',
             'message' => 'Thanks for confirming your email. You can now continue.',
             'cta_url' => url('https://justtravel.pro/login'), // مثال: https://justtravel.pro أو صفحة تسجيل الدخول

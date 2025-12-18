@@ -42,10 +42,15 @@ return [
         ],
 
 
-       'flutter' => [
-          'driver' => 'sanctum',
-          'provider' => 'flutter_users',
-],
+        'flutter' => [
+            'driver' => 'sanctum',
+            'provider' => 'flutter_users',
+        ],
+
+        'flutter_web' => [
+            'driver' => 'session',
+            'provider' => 'flutter_users',
+        ],
 
     ],
 
@@ -72,9 +77,9 @@ return [
             'model' => App\Models\User::class,
         ],
         'flutter_users' => [
-    'driver' => 'eloquent',
-    'model' => App\Models\FlutterUser::class,
-],
+            'driver' => 'eloquent',
+            'model' => App\Models\FlutterUser::class,
+        ],
 
 
         // 'users' => [
