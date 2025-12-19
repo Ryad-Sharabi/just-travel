@@ -69,6 +69,10 @@ Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
 
+Route::get('/mobile-app', function () {
+    return view('mobile_app');
+})->name('mobile.app');
+
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();

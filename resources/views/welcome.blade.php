@@ -869,7 +869,7 @@
                         Take Just Travel with you. Our mobile-first design ensures you can manage your bookings,
                         give feedback, and update your profile on the go.
                     </p>
-                    <a href="#" class="btn btn-primary" data-t="btn_app">Get the App</a>
+                    <a href="{{ route('mobile.app') }}" class="btn btn-primary" data-t="btn_app">Get the App</a>
                 </div>
             </div>
 
