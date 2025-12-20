@@ -561,6 +561,7 @@
             themeToggle.innerHTML = newTheme === 'dark' ? sunIcon : moonIcon;
         });
     </script>
+    @include('partials.cookie-consent')
 </body>
 
 </html>

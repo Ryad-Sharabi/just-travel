@@ -439,6 +439,40 @@
             box-shadow: 0 8px 20px rgba(9, 132, 227, 0.4);
         }
 
+        /* Load More Button */
+        .btn-load-more {
+            background: var(--gradient-hero);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 10px 25px rgba(9, 132, 227, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-load-more:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(9, 132, 227, 0.4);
+            filter: brightness(1.1);
+        }
+
+        .btn-load-more:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .load-more-container {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+        }
 
         /* Responsive Design */
         @media (max-width: 768px) {
@@ -1689,6 +1723,21 @@
                     </div>
                 @endforelse
             </div>
+            
+            @if($activeTab === 'hotels' && isset($hasMore) && $hasMore)
+                <div class="load-more-container" style="text-align: center; margin-top: 3rem; padding: 2rem;">
+                    <button id="loadMoreBtn" class="btn-load-more" onclick="loadMoreHotels()">
+                        <i class="fa-solid fa-arrow-down"></i>
+                        <span data-t="btn_load_more">Load More Hotels</span>
+                        <span id="loadMoreCount" style="opacity: 0.7; font-size: 0.9em; margin-left: 8px;">
+                            ({{ $loadedCount ?? 0 }} / {{ $totalCount ?? 0 }})
+                        </span>
+                    </button>
+                    <div id="loadMoreSpinner" style="display: none; margin-top: 1rem;">
+                        <i class="fa-solid fa-spinner fa-spin" style="font-size: 2rem; color: var(--secondary);"></i>
+                    </div>
+                </div>
+            @endif
         @endif
     </main>
 
@@ -1816,6 +1865,7 @@
                 btn_book_room: "Book Room",
                 btn_rent_car: "Rent Car",
                 btn_feedback: "Feedback",
+                btn_load_more: "Load More Hotels",
                 label_posting_as: "Posting as",
                 label_verified_email: "Verified Email",
                 label_experience_question: "How was your experience?",
@@ -1898,6 +1948,7 @@
                 btn_book_room: "Забронировать",
                 btn_rent_car: "Арендовать",
                 btn_feedback: "Отзыв",
+                btn_load_more: "Загрузить еще отелей",
                 label_posting_as: "От имени",
                 label_verified_email: "Email",
                 label_experience_question: "Как всё прошло?",
@@ -2013,6 +2064,7 @@
                 btn_book_room: "حجز غرفة",
                 btn_rent_car: "استئجار سيارة",
                 btn_feedback: "ملاحظات",
+                btn_load_more: "تحميل المزيد من الفنادق",
                 label_posting_as: "النشر باسم",
                 label_verified_email: "البريد الإلكتروني الموثق",
                 label_experience_question: "كيف كانت تجربتك؟",
@@ -2074,6 +2126,7 @@
                 btn_book_room: "预订房间",
                 btn_rent_car: "租车",
                 btn_feedback: "反馈",
+                btn_load_more: "加载更多酒店",
                 label_posting_as: "发布身份",
                 label_verified_email: "已验证邮箱",
                 label_experience_question: "您的体验如何？",
@@ -2167,6 +2220,7 @@
                 btn_book_room: "Réserver chambre",
                 btn_rent_car: "Louer voiture",
                 btn_feedback: "Avis",
+                btn_load_more: "Charger plus d'hôtels",
                 label_posting_as: "Publié en tant que",
                 label_verified_email: "Email vérifié",
                 label_experience_question: "Comment s'est passée votre expérience ?",
@@ -2347,6 +2401,109 @@
             document.getElementById(id).classList.remove('active');
         }
 
+        // Load More Hotels Function
+        let currentOffset = {{ $activeTab === 'hotels' && isset($loadedCount) ? $loadedCount : 0 }};
+        let isLoadingMore = false;
+
+        async function loadMoreHotels() {
+            if (isLoadingMore) return;
+            
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            const loadMoreSpinner = document.getElementById('loadMoreSpinner');
+            const gridContainer = document.querySelector('.grid-container');
+            
+            if (!loadMoreBtn || !gridContainer) return;
+            
+            isLoadingMore = true;
+            loadMoreBtn.disabled = true;
+            loadMoreSpinner.style.display = 'block';
+            
+            try {
+                const response = await fetch(`/hotels/load-more?offset=${currentOffset}`);
+                const data = await response.json();
+                
+                if (data.hotels && data.hotels.length > 0) {
+                    // Append new hotels to the grid
+                    data.hotels.forEach(hotel => {
+                        const mapQuery = (hotel.latitude && hotel.longitude) 
+                            ? `${hotel.latitude},${hotel.longitude}` 
+                            : `${hotel.city || ''} ${hotel.name}`;
+                        
+                        const cardHtml = `
+                            <div class="card">
+                                <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}" target="_blank"
+                                    class="card-map" title="View on Map">
+                                    <div class="map-marker-visual">
+                                        <i class="fa-solid fa-hotel" style="font-size: 2rem;"></i>
+                                    </div>
+                                </a>
+                                <div class="card-body">
+                                    <div class="card-header-row">
+                                        <h3 class="airport-name">${escapeHtml(hotel.name)}</h3>
+                                    </div>
+                                    <div class="airport-country">
+                                        <i class="fa-solid fa-earth-americas"></i>
+                                        ${escapeHtml(hotel.city || '')}
+                                    </div>
+                                    ${hotel.price ? `
+                                    <div style="font-size: 0.95rem; color: var(--secondary); margin-top: 5px; font-weight: 700;">
+                                        <i class="fa-solid fa-tag"></i> $${parseFloat(hotel.price).toFixed(2)}
+                                    </div>
+                                    ` : ''}
+                                </div>
+                                <div class="card-controls">
+                                    <a href="{{ route('hotels.book') }}" class="btn-ctrl btn-book" style="text-decoration: none;">
+                                        <i class="fa-solid fa-ticket"></i> <span data-t="btn_book_room">Book Room</span>
+                                    </a>
+                                    <button class="btn-ctrl btn-feedback"
+                                        onclick="handleFeedbackClick('${escapeHtml(hotel.name)}')">
+                                        <i class="fa-regular fa-comment-dots"></i> <span data-t="btn_feedback">Feedback</span>
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                        
+                        gridContainer.insertAdjacentHTML('beforeend', cardHtml);
+                    });
+                    
+                    currentOffset += data.hotels.length;
+                    
+                    // Update count display
+                    const countSpan = document.getElementById('loadMoreCount');
+                    if (countSpan) {
+                        countSpan.textContent = `(${data.loadedCount} / ${data.totalCount})`;
+                    }
+                    
+                    // Apply translations to newly loaded content
+                    const currentLang = localStorage.getItem('lang') || 'en';
+                    if (typeof applyLang === 'function') {
+                        applyLang(currentLang);
+                    }
+                    
+                    // Hide button if no more hotels
+                    if (!data.hasMore) {
+                        loadMoreBtn.style.display = 'none';
+                    }
+                } else {
+                    // No more hotels
+                    loadMoreBtn.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error loading more hotels:', error);
+                alert('Failed to load more hotels. Please try again.');
+            } finally {
+                isLoadingMore = false;
+                loadMoreBtn.disabled = false;
+                loadMoreSpinner.style.display = 'none';
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
         // Event Listeners Initialization
         document.addEventListener('DOMContentLoaded', () => {
             const savedLang = localStorage.getItem('lang') || 'en';
@@ -2392,6 +2549,7 @@
             }
         });
     </script>
+    @include('partials.cookie-consent')
 </body>
 
 </html>

@@ -16,9 +16,42 @@ class BrowseController extends Controller
 
     public function hotels()
     {
-        // Fetch hotels
-        $items = \App\Models\Hotel::select('name', 'city', 'latitude', 'longitude', 'hotel_id', 'price')->get();
-        return view('browse', ['items' => $items, 'activeTab' => 'hotels']);
+        // Fetch only first 50 hotels to prevent page freezing
+        $items = \App\Models\Hotel::select('name', 'city', 'latitude', 'longitude', 'hotel_id', 'price')
+            ->limit(50)
+            ->get();
+        
+        $totalCount = \App\Models\Hotel::count();
+        $hasMore = $totalCount > 50;
+        
+        return view('browse', [
+            'items' => $items, 
+            'activeTab' => 'hotels',
+            'hasMore' => $hasMore,
+            'totalCount' => $totalCount,
+            'loadedCount' => $items->count()
+        ]);
+    }
+
+    public function loadMoreHotels(Request $request)
+    {
+        $offset = $request->input('offset', 0);
+        $limit = 50;
+        
+        $hotels = \App\Models\Hotel::select('name', 'city', 'latitude', 'longitude', 'hotel_id', 'price')
+            ->skip($offset)
+            ->take($limit)
+            ->get();
+        
+        $totalCount = \App\Models\Hotel::count();
+        $hasMore = ($offset + $limit) < $totalCount;
+        
+        return response()->json([
+            'hotels' => $hotels,
+            'hasMore' => $hasMore,
+            'totalCount' => $totalCount,
+            'loadedCount' => $offset + $hotels->count()
+        ]);
     }
     public function cars()
     {

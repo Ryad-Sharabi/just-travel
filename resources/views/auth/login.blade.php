@@ -459,7 +459,10 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="password" class="form-label" data-t="label_password">Password</label>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
+                        <label for="password" class="form-label" data-t="label_password">Password</label>
+                        <a href="{{ route('password.forgot') }}" class="link-highlight" style="font-size: 0.9rem;" data-t="forgot_password">Forgot Password?</a>
+                    </div>
                     <div class="input-wrapper">
                         <input type="password" id="password" name="password" class="form-input" placeholder="••••••••"
                             required>
@@ -518,6 +521,7 @@
                 label_email: "Email",
                 placeholder_email: "Enter your email",
                 label_password: "Password",
+                forgot_password: "Forgot Password?",
                 btn_login: "Sign In",
                 no_account: "Don't have an account?",
                 create_account: "Create free account",
@@ -531,6 +535,7 @@
                 label_email: "البريد الإلكتروني",
                 placeholder_email: "أدخل بريدك الإلكتروني",
                 label_password: "كلمة المرور",
+                forgot_password: "نسيت كلمة المرور؟",
                 btn_login: "تسجيل الدخول",
                 no_account: "ليس لديك حساب؟",
                 create_account: "أنشئ حساباً مجانياً",
@@ -544,6 +549,7 @@
                 label_email: "Email",
                 placeholder_email: "Введите ваш email",
                 label_password: "Пароль",
+                forgot_password: "Забыли пароль?",
                 btn_login: "Войти",
                 no_account: "Нет аккаунта?",
                 create_account: "Создать бесплатный аккаунт",
@@ -557,8 +563,8 @@
                 label_email: "电子邮件",
                 placeholder_email: "输入您的电子邮件",
                 label_password: "密码",
+                forgot_password: "忘记密码？",
                 btn_login: "登录",
-                no_account: "没有帐户？",
                 no_account: "没有帐户？",
                 create_account: "创建免费帐户",
                 remember_me: "记住我"
@@ -571,6 +577,7 @@
                 label_email: "Email",
                 placeholder_email: "Entrez votre email",
                 label_password: "Mot de passe",
+                forgot_password: "Mot de passe oublié?",
                 btn_login: "Se connecter",
                 no_account: "Vous n'avez pas de compte ?",
                 create_account: "Créer un compte gratuit",
@@ -630,6 +637,7 @@
             themeToggle.innerHTML = newTheme === 'dark' ? sunIcon : moonIcon;
         });
     </script>
+    @include('partials.cookie-consent')
 </body>
 
 </html>

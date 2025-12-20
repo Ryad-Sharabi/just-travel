@@ -26,6 +26,12 @@ Route::get('/register', [WebAuthController::class, 'showRegister'])->name('regis
 Route::post('/register', [WebAuthController::class, 'register'])->name('register.post');
 Route::post('/logout', [WebAuthController::class, 'logout'])->name('logout');
 
+// Password Reset Routes
+Route::get('/forgot-password', [WebAuthController::class, 'showForgotPassword'])->name('password.forgot');
+Route::post('/forgot-password', [WebAuthController::class, 'sendResetCode'])->name('password.send-code');
+Route::get('/reset-password', [WebAuthController::class, 'showResetPassword'])->name('password.reset');
+Route::post('/reset-password', [WebAuthController::class, 'resetPassword'])->name('password.reset.post');
+
 // Email Verification Routes
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
@@ -47,6 +53,7 @@ use App\Http\Controllers\BrowseController;
 // Dashboard / Home
 Route::get('/home', [BrowseController::class, 'index'])->name('home');
 Route::get('/hotels', [BrowseController::class, 'hotels'])->name('hotels');
+Route::get('/hotels/load-more', [BrowseController::class, 'loadMoreHotels'])->name('hotels.load-more');
 Route::get('/book-hotel', function () {
     return view('hotel_booking');
 })->name('hotels.book');

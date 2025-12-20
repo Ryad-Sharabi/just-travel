@@ -1142,6 +1142,7 @@
             }
         });
     </script>
+    @include('partials.cookie-consent')
 </body>
 <!-- 
     Note to User:
