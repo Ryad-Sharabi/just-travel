@@ -38,5 +38,9 @@ return [
         'key' => env('GEMINI_API_KEY'),
     ],
 
+    'clarity' => [
+        'project_id' => env('CLARITY_PROJECT_ID', ''),
+        'enabled' => env('CLARITY_ENABLED', true),
+    ],
 
 ];

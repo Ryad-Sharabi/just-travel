@@ -176,8 +176,10 @@
                 setCookie('cookie_consent', 'accepted', 365);
                 banner.style.display = 'none';
                 
-                // Load Clarity after acceptance
-                loadClarity();
+                // Load Clarity after acceptance (if enabled)
+                if (@json(config('services.clarity.enabled', true))) {
+                    loadClarity();
+                }
             });
 
             // Decline button
@@ -187,14 +189,23 @@
             });
         }
 
-        // Load Clarity if consent was previously given
-        if (consent === 'accepted') {
+        // Load Clarity if consent was previously given and Clarity is enabled
+        if (consent === 'accepted' && @json(config('services.clarity.enabled', true))) {
             loadClarity();
         }
 
         function loadClarity() {
             // Check if Clarity is already loaded
             if (window.clarity) {
+                return;
+            }
+
+            // Get Clarity Project ID from config
+            const clarityProjectId = @json(config('services.clarity.project_id', ''));
+            
+            // Don't load if project ID is not set
+            if (!clarityProjectId || clarityProjectId === '') {
+                console.warn('Clarity Project ID is not configured. Please set CLARITY_PROJECT_ID in your .env file.');
                 return;
             }
 
@@ -211,7 +222,7 @@
                     // Fallback: append to head if no script tag found
                     (l.head || l.getElementsByTagName("head")[0]).appendChild(t);
                 }
-            })(window, document, "clarity", "script", "umwarpwoaf");
+            })(window, document, "clarity", "script", clarityProjectId);
         }
 
         // Add translations for cookie banner
