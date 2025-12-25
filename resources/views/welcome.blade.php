@@ -107,6 +107,113 @@
             color: var(--secondary);
         }
 
+        /* App Download Banner */
+        .app-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--gradient-hero);
+            padding: 12px 0;
+            z-index: 1001;
+            display: none;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .app-banner.show {
+            display: block;
+        }
+
+        .app-banner.hide {
+            transform: translateY(-100%);
+        }
+
+        .app-banner-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+        }
+
+        .app-banner-logo {
+            height: 35px;
+            width: auto;
+            border-radius: 6px;
+            object-fit: contain;
+        }
+
+        .app-banner-text {
+            color: var(--white);
+            font-size: 0.95rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .app-banner-link {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 6px 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(8px);
+        }
+
+        .app-banner-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .app-banner-close {
+            position: absolute;
+            right: 2rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: var(--white);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            backdrop-filter: blur(8px);
+        }
+
+        .app-banner-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .app-banner-text {
+                font-size: 0.85rem;
+            }
+
+            .app-banner-link {
+                padding: 5px 12px;
+                font-size: 0.85rem;
+            }
+
+            .app-banner-close {
+                right: 1rem;
+            }
+
+            .app-banner-content {
+                padding: 0 3rem 0 1rem;
+            }
+        }
+
         /* Header */
         header {
             position: fixed;
@@ -116,6 +223,59 @@
             padding: 20px 0;
             z-index: 1000;
             transition: var(--transition);
+        }
+
+        body.has-banner header {
+            top: 60px;
+        }
+
+        /* Floating WhatsApp Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            z-index: 999;
+            transition: var(--transition);
+            text-decoration: none;
+            color: var(--white);
+            font-size: 1.8rem;
+            animation: pulse-whatsapp 2s infinite;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(37, 211, 102, 0.6);
+        }
+
+        .whatsapp-float:active {
+            transform: scale(0.95);
+        }
+
+        @keyframes pulse-whatsapp {
+            0%, 100% {
+                box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            }
+            50% {
+                box-shadow: 0 4px 30px rgba(37, 211, 102, 0.6), 0 0 0 10px rgba(37, 211, 102, 0.1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .whatsapp-float {
+                bottom: 20px;
+                right: 20px;
+                width: 55px;
+                height: 55px;
+                font-size: 1.6rem;
+            }
         }
 
         header.scrolled {
@@ -744,6 +904,21 @@
 
 <body class="antialiased">
 
+    <!-- App Download Banner -->
+    <div class="app-banner" id="appBanner">
+        <div class="app-banner-content">
+            <img src="{{ asset('images/logo.jpg') }}" alt="Just Travel" class="app-banner-logo">
+            <div class="app-banner-text">
+                <i class="fa-solid fa-mobile-screen-button"></i>
+                <span data-t="banner_text">Download our app for the best travel experience!</span>
+            </div>
+            <a href="{{ route('mobile.app') }}" class="app-banner-link" data-t="banner_link">Get the App</a>
+            <button class="app-banner-close" id="closeBanner" aria-label="Close banner">
+                <i class="fa-solid fa-times"></i>
+            </button>
+        </div>
+    </div>
+
     <header>
         <div class="container">
             <nav>
@@ -829,7 +1004,7 @@
             <!-- AI Planner -->
             <div class="showcase-row">
                 <div class="showcase-img-wrapper">
-                    <img src="{{ asset('images/section1.jpg') }}" alt="AI Robot" class="showcase-img">
+                    <video src="{{ asset('images/AI.mp4') }}" class="showcase-img" autoplay loop muted playsinline></video>
                 </div>
                 <div class="showcase-text">
                     <h2 class="showcase-title" data-t="f1_title">Your Personal AI Guide</h2>
@@ -915,6 +1090,29 @@
     </footer>
 
     <script>
+        // App Banner Functionality
+        (function() {
+            const appBanner = document.getElementById('appBanner');
+            const closeBannerBtn = document.getElementById('closeBanner');
+            const bannerDismissed = localStorage.getItem('appBannerDismissed');
+
+            if (!bannerDismissed && appBanner) {
+                appBanner.classList.add('show');
+                document.body.classList.add('has-banner');
+            }
+
+            if (closeBannerBtn) {
+                closeBannerBtn.addEventListener('click', function() {
+                    appBanner.classList.add('hide');
+                    setTimeout(function() {
+                        appBanner.classList.remove('show');
+                        document.body.classList.remove('has-banner');
+                    }, 300);
+                    localStorage.setItem('appBannerDismissed', 'true');
+                });
+            }
+        })();
+
         const themeToggle = document.getElementById('themeToggle');
         const langToggle = document.getElementById('langToggle');
         const langDropdown = document.getElementById('langDropdown');
@@ -979,6 +1177,8 @@
                 f3_title: "Seamless Mobile Experience",
                 f3_desc: "Take Just Travel with you. Our mobile-first design ensures you can manage bookings and profile on the go.",
                 btn_app: "Get the App",
+                banner_text: "Download our app for the best travel experience!",
+                banner_link: "Get the App",
                 footer_legal: "Legal",
                 footer_privacy: "Privacy Policy",
                 footer_contact: "Contact Us",
@@ -1005,6 +1205,8 @@
                 f3_title: "تجربة هاتف محمولة سلسة",
                 f3_desc: "خذ Just Travel معك. يضمن تصميمنا الموجه للهواتف إدارة حجوزاتك وحسابك أثناء التنقل.",
                 btn_app: "احصل على التطبيق",
+                banner_text: "قم بتنزيل تطبيقنا للحصول على أفضل تجربة سفر!",
+                banner_link: "احصل على التطبيق",
                 footer_legal: "قانوني",
                 footer_privacy: "سياسة الخصوصية",
                 footer_contact: "اتصل بنا",
@@ -1143,6 +1345,11 @@
         });
     </script>
     @include('partials.cookie-consent')
+    
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/971507466975" target="_blank" class="whatsapp-float" aria-label="Contact us on WhatsApp" title="Chat with us on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
 </body>
 <!-- 
     Note to User:
