@@ -43,4 +43,10 @@ return [
         'enabled' => env('CLARITY_ENABLED', true),
     ],
 
+    'rapidapi' => [
+        'key' => env('RAPIDAPI_KEY'),
+        'host' => env('RAPIDAPI_HOST', 'zilyo.p.rapidapi.com'), // Changed to Zilyo API
+        'provider' => env('RAPIDAPI_PROVIDER', 'zilyo'), // zilyo, tripadvisor, etc.
+    ],
+
 ];

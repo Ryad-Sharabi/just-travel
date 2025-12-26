@@ -321,7 +321,90 @@
             justify-content: center;
         }
 
-        /* Attractive Abstract Map Pattern */
+        /* Hotel/Car Image Display */
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .card-image-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .image-carousel {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .image-carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .card:hover .image-carousel-nav {
+            opacity: 1;
+        }
+
+        .image-carousel-nav.prev {
+            left: 10px;
+        }
+
+        .image-carousel-nav.next {
+            right: 10px;
+        }
+
+        .image-indicators {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 5px;
+            z-index: 20;
+        }
+
+        .image-indicator {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .image-indicator.active {
+            background: white;
+            width: 20px;
+            border-radius: 3px;
+        }
+
+        /* Attractive Abstract Map Pattern (fallback when no image) */
         .card-map::before {
             content: '';
             position: absolute;
@@ -332,6 +415,11 @@
             background-image: radial-gradient(var(--primary) 1px, transparent 1px);
             background-size: 20px 20px;
             opacity: 0.1;
+            z-index: 1;
+        }
+
+        .card-map.has-image::before {
+            display: none;
         }
 
         .map-marker-visual {
@@ -385,6 +473,54 @@
             align-items: center;
             gap: 6px;
             font-weight: 500;
+        }
+
+        /* Rating Display */
+        .hotel-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
+
+        .rating-stars {
+            color: #ffd700;
+            font-size: 0.9rem;
+        }
+
+        .rating-value {
+            font-weight: 700;
+            color: var(--text-main);
+            font-size: 0.9rem;
+        }
+
+        .review-count {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Amenities Display */
+        .amenities-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .amenity-badge {
+            background: var(--bg-page);
+            color: var(--text-main);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid var(--border-color);
+        }
+
+        [data-theme="dark"] .amenity-badge {
+            background: var(--bg-input);
         }
 
         /* Controls */
@@ -1640,19 +1776,47 @@
                     <div class="card">
                         @php
                             $mapQuery = ($item->latitude && $item->longitude) ? $item->latitude . ',' . $item->longitude : ($item->city ?? '') . ' ' . $item->name;
+                            $hasImage = ($activeTab === 'hotels' || $activeTab === 'cars') && ($item->image_url ?? false);
+                            $images = ($activeTab === 'hotels' || $activeTab === 'cars') && $item->images ? json_decode($item->images, true) : [];
+                            $allImages = $hasImage ? array_merge([$item->image_url], $images) : [];
                         @endphp
-                        <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($mapQuery) }}" target="_blank"
-                            class="card-map" title="View on Map">
-                            <div class="map-marker-visual">
-                                @if($activeTab === 'hotels')
-                                    <i class="fa-solid fa-hotel" style="font-size: 2rem;"></i>
-                                @elseif($activeTab === 'cars')
-                                    <i class="fa-solid fa-car" style="font-size: 2rem;"></i>
-                                @else
-                                    <i class="fa-solid fa-location-dot"></i>
-                                @endif
-                            </div>
-                        </a>
+                        <div class="card-map {{ $hasImage ? 'has-image' : '' }}" id="card-map-{{ $item->id ?? $loop->index }}">
+                            @if($hasImage && !empty($allImages))
+                                <div class="image-carousel" data-carousel-id="carousel-{{ $item->id ?? $loop->index }}">
+                                    @foreach($allImages as $index => $img)
+                                        <img src="{{ $img }}" alt="{{ $item->name }}" class="card-image {{ $index === 0 ? 'active' : '' }}" 
+                                             data-index="{{ $index }}" loading="lazy" 
+                                             onerror="this.style.display='none'; this.nextElementSibling?.classList.remove('hidden');">
+                                    @endforeach
+                                    @if(count($allImages) > 1)
+                                        <button class="image-carousel-nav prev" onclick="changeImage('carousel-{{ $item->id ?? $loop->index }}', -1)">
+                                            <i class="fa-solid fa-chevron-left"></i>
+                                        </button>
+                                        <button class="image-carousel-nav next" onclick="changeImage('carousel-{{ $item->id ?? $loop->index }}', 1)">
+                                            <i class="fa-solid fa-chevron-right"></i>
+                                        </button>
+                                        <div class="image-indicators">
+                                            @foreach($allImages as $index => $img)
+                                                <div class="image-indicator {{ $index === 0 ? 'active' : '' }}" 
+                                                     onclick="goToImage('carousel-{{ $item->id ?? $loop->index }}', {{ $index }})"></div>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                </div>
+                            @else
+                                <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($mapQuery) }}" target="_blank" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                                    <div class="map-marker-visual">
+                                        @if($activeTab === 'hotels')
+                                            <i class="fa-solid fa-hotel" style="font-size: 2rem;"></i>
+                                        @elseif($activeTab === 'cars')
+                                            <i class="fa-solid fa-car" style="font-size: 2rem;"></i>
+                                        @else
+                                            <i class="fa-solid fa-location-dot"></i>
+                                        @endif
+                                    </div>
+                                </a>
+                            @endif
+                        </div>
                         <div class="card-body">
                             <div class="card-header-row">
                                 <h3 class="airport-name">{{ $item->name }}</h3>
@@ -1668,11 +1832,62 @@
                                     {{ $item->country_name }}
                                 @endif
                             </div>
-                            @if(($activeTab === 'hotels' || $activeTab === 'cars') && $item->price)
+                            
+                            @if($activeTab === 'hotels' && $item->rating)
+                                <div class="hotel-rating">
+                                    <div class="rating-stars">
+                                        @for($i = 1; $i <= 5; $i++)
+                                            <i class="fa-solid fa-star {{ $i <= floor($item->rating) ? '' : ($i <= $item->rating ? 'fa-star-half-stroke' : 'fa-star') }}"></i>
+                                        @endfor
+                                    </div>
+                                    <span class="rating-value">{{ number_format($item->rating, 1) }}</span>
+                                    @if($item->review_count)
+                                        <span class="review-count">({{ number_format($item->review_count) }})</span>
+                                    @endif
+                                </div>
+                            @endif
+
+                            @if(($activeTab === 'hotels' || $activeTab === 'cars') && ($item->price_per_night ?? $item->price))
                                 <div style="font-size: 0.95rem; color: var(--secondary); margin-top: 5px; font-weight: 700;">
-                                    <i class="fa-solid fa-tag"></i> ${{ number_format($item->price, 2) }}
-                                    @if($activeTab === 'cars') <span style="font-size:0.8em; color:#b2bec3; font-weight:400;"
-                                    data-t="per_day">/day</span> @endif
+                                    <i class="fa-solid fa-tag"></i> 
+                                    {{ ($item->currency ?? 'USD') === 'USD' ? '$' : ($item->currency ?? 'USD') }}
+                                    {{ number_format($item->price_per_night ?? $item->price, 2) }}
+                                    @if($activeTab === 'cars') 
+                                        <span style="font-size:0.8em; color:#b2bec3; font-weight:400;" data-t="per_day">/day</span> 
+                                    @else
+                                        <span style="font-size:0.8em; color:#b2bec3; font-weight:400;">/night</span>
+                                    @endif
+                                </div>
+                            @endif
+
+                            @if($activeTab === 'hotels' && $item->amenities)
+                                @php
+                                    $amenities = is_string($item->amenities) ? json_decode($item->amenities, true) : $item->amenities;
+                                    $amenities = is_array($amenities) ? array_slice($amenities, 0, 3) : [];
+                                @endphp
+                                @if(!empty($amenities))
+                                    <div class="amenities-list">
+                                        @foreach($amenities as $amenity)
+                                            <span class="amenity-badge">{{ $amenity }}</span>
+                                        @endforeach
+                                        @if(count($amenities) >= 3)
+                                            <span class="amenity-badge">+{{ count(is_string($item->amenities) ? json_decode($item->amenities, true) : $item->amenities) - 3 }}</span>
+                                        @endif
+                                    </div>
+                                @endif
+                            @endif
+
+                            @if($activeTab === 'cars' && ($item->category || $item->seats || $item->transmission))
+                                <div class="amenities-list">
+                                    @if($item->category)
+                                        <span class="amenity-badge">{{ $item->category }}</span>
+                                    @endif
+                                    @if($item->seats)
+                                        <span class="amenity-badge"><i class="fa-solid fa-users"></i> {{ $item->seats }} seats</span>
+                                    @endif
+                                    @if($item->transmission)
+                                        <span class="amenity-badge">{{ $item->transmission }}</span>
+                                    @endif
                                 </div>
                             @endif
                         </div>
@@ -1685,7 +1900,10 @@
                             @endif
 
                             @if($activeTab === 'hotels')
-                                <a href="{{ route('hotels.book') }}" class="btn-ctrl btn-book" style="text-decoration: none;">
+                                <a href="{{ $item->booking_url ?? route('hotels.book') }}" 
+                                   class="btn-ctrl btn-book" 
+                                   style="text-decoration: none;"
+                                   {{ $item->booking_url ? 'target="_blank"' : '' }}>
                                     <i class="fa-solid fa-ticket"></i> <span data-t="btn_book_room">Book Room</span>
                                 </a>
                             @elseif($activeTab === 'airports')
@@ -1693,7 +1911,10 @@
                                     <i class="fa-solid fa-ticket"></i> <span data-t="btn_book_flight">Book Flight</span>
                                 </a>
                             @elseif($activeTab === 'cars')
-                                <a href="{{ route('cars.book') }}" class="btn-ctrl btn-book" style="text-decoration: none;">
+                                <a href="{{ $item->booking_url ?? route('cars.book') }}" 
+                                   class="btn-ctrl btn-book" 
+                                   style="text-decoration: none;"
+                                   {{ $item->booking_url ? 'target="_blank"' : '' }}>
                                     <i class="fa-solid fa-ticket"></i> <span data-t="btn_rent_car">Rent Car</span>
                                 </a>
                             @else
@@ -2424,19 +2645,97 @@
                 
                 if (data.hotels && data.hotels.length > 0) {
                     // Append new hotels to the grid
-                    data.hotels.forEach(hotel => {
+                    data.hotels.forEach((hotel, index) => {
                         const mapQuery = (hotel.latitude && hotel.longitude) 
                             ? `${hotel.latitude},${hotel.longitude}` 
                             : `${hotel.city || ''} ${hotel.name}`;
                         
-                        const cardHtml = `
-                            <div class="card">
+                        const hasImage = hotel.image_url;
+                        const images = hotel.images ? (Array.isArray(hotel.images) ? hotel.images : JSON.parse(hotel.images)) : [];
+                        const allImages = hasImage ? [hotel.image_url, ...images] : [];
+                        const carouselId = `carousel-${hotel.id || Date.now()}-${index}`;
+                        
+                        let imageHtml = '';
+                        if (hasImage && allImages.length > 0) {
+                            imageHtml = `
+                                <div class="card-map has-image">
+                                    <div class="image-carousel" data-carousel-id="${carouselId}">
+                                        ${allImages.map((img, imgIndex) => `
+                                            <img src="${img}" alt="${escapeHtml(hotel.name)}" class="card-image ${imgIndex === 0 ? 'active' : ''}" 
+                                                 data-index="${imgIndex}" loading="lazy" 
+                                                 onerror="this.style.display='none';">
+                                        `).join('')}
+                                        ${allImages.length > 1 ? `
+                                            <button class="image-carousel-nav prev" onclick="changeImage('${carouselId}', -1)">
+                                                <i class="fa-solid fa-chevron-left"></i>
+                                            </button>
+                                            <button class="image-carousel-nav next" onclick="changeImage('${carouselId}', 1)">
+                                                <i class="fa-solid fa-chevron-right"></i>
+                                            </button>
+                                            <div class="image-indicators">
+                                                ${allImages.map((img, imgIndex) => `
+                                                    <div class="image-indicator ${imgIndex === 0 ? 'active' : ''}" 
+                                                         onclick="goToImage('${carouselId}', ${imgIndex})"></div>
+                                                `).join('')}
+                                            </div>
+                                        ` : ''}
+                                    </div>
+                                </div>
+                            `;
+                        } else {
+                            imageHtml = `
                                 <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}" target="_blank"
                                     class="card-map" title="View on Map">
                                     <div class="map-marker-visual">
                                         <i class="fa-solid fa-hotel" style="font-size: 2rem;"></i>
                                     </div>
                                 </a>
+                            `;
+                        }
+                        
+                        const ratingHtml = hotel.rating ? `
+                            <div class="hotel-rating">
+                                <div class="rating-stars">
+                                    ${Array.from({length: 5}, (_, i) => {
+                                        const starNum = i + 1;
+                                        if (starNum <= Math.floor(hotel.rating)) {
+                                            return '<i class="fa-solid fa-star"></i>';
+                                        } else if (starNum <= hotel.rating) {
+                                            return '<i class="fa-solid fa-star-half-stroke"></i>';
+                                        } else {
+                                            return '<i class="fa-regular fa-star"></i>';
+                                        }
+                                    }).join('')}
+                                </div>
+                                <span class="rating-value">${parseFloat(hotel.rating).toFixed(1)}</span>
+                                ${hotel.review_count ? `<span class="review-count">(${parseInt(hotel.review_count).toLocaleString()})</span>` : ''}
+                            </div>
+                        ` : '';
+                        
+                        const amenities = hotel.amenities ? (Array.isArray(hotel.amenities) ? hotel.amenities : JSON.parse(hotel.amenities)) : [];
+                        const amenitiesHtml = amenities.length > 0 ? `
+                            <div class="amenities-list">
+                                ${amenities.slice(0, 3).map(amenity => `
+                                    <span class="amenity-badge">${escapeHtml(amenity)}</span>
+                                `).join('')}
+                                ${amenities.length > 3 ? `<span class="amenity-badge">+${amenities.length - 3}</span>` : ''}
+                            </div>
+                        ` : '';
+                        
+                        const price = hotel.price_per_night || hotel.price;
+                        const currency = hotel.currency || 'USD';
+                        const priceHtml = price ? `
+                            <div style="font-size: 0.95rem; color: var(--secondary); margin-top: 5px; font-weight: 700;">
+                                <i class="fa-solid fa-tag"></i> ${currency === 'USD' ? '$' : currency} ${parseFloat(price).toFixed(2)}/night
+                            </div>
+                        ` : '';
+                        
+                        const bookingUrl = hotel.booking_url || '{{ route("hotels.book") }}';
+                        const bookingTarget = hotel.booking_url ? 'target="_blank"' : '';
+                        
+                        const cardHtml = `
+                            <div class="card">
+                                ${imageHtml}
                                 <div class="card-body">
                                     <div class="card-header-row">
                                         <h3 class="airport-name">${escapeHtml(hotel.name)}</h3>
@@ -2445,14 +2744,12 @@
                                         <i class="fa-solid fa-earth-americas"></i>
                                         ${escapeHtml(hotel.city || '')}
                                     </div>
-                                    ${hotel.price ? `
-                                    <div style="font-size: 0.95rem; color: var(--secondary); margin-top: 5px; font-weight: 700;">
-                                        <i class="fa-solid fa-tag"></i> $${parseFloat(hotel.price).toFixed(2)}
-                                    </div>
-                                    ` : ''}
+                                    ${ratingHtml}
+                                    ${priceHtml}
+                                    ${amenitiesHtml}
                                 </div>
                                 <div class="card-controls">
-                                    <a href="{{ route('hotels.book') }}" class="btn-ctrl btn-book" style="text-decoration: none;">
+                                    <a href="${bookingUrl}" class="btn-ctrl btn-book" style="text-decoration: none;" ${bookingTarget}>
                                         <i class="fa-solid fa-ticket"></i> <span data-t="btn_book_room">Book Room</span>
                                     </a>
                                     <button class="btn-ctrl btn-feedback"
@@ -2499,9 +2796,57 @@
         }
 
         function escapeHtml(text) {
+            if (!text) return '';
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
+        }
+
+        // Image Carousel Functions
+        function changeImage(carouselId, direction) {
+            const carousel = document.querySelector(`[data-carousel-id="${carouselId}"]`);
+            if (!carousel) return;
+            
+            const images = carousel.querySelectorAll('.card-image');
+            const indicators = carousel.querySelectorAll('.image-indicator');
+            if (images.length === 0) return;
+            
+            let currentIndex = Array.from(images).findIndex(img => img.classList.contains('active'));
+            if (currentIndex === -1) currentIndex = 0;
+            
+            let newIndex = currentIndex + direction;
+            if (newIndex < 0) newIndex = images.length - 1;
+            if (newIndex >= images.length) newIndex = 0;
+            
+            images[currentIndex].classList.remove('active');
+            images[newIndex].classList.add('active');
+            
+            if (indicators.length > 0) {
+                indicators[currentIndex].classList.remove('active');
+                indicators[newIndex].classList.add('active');
+            }
+        }
+
+        function goToImage(carouselId, index) {
+            const carousel = document.querySelector(`[data-carousel-id="${carouselId}"]`);
+            if (!carousel) return;
+            
+            const images = carousel.querySelectorAll('.card-image');
+            const indicators = carousel.querySelectorAll('.image-indicator');
+            if (images.length === 0 || index < 0 || index >= images.length) return;
+            
+            const currentIndex = Array.from(images).findIndex(img => img.classList.contains('active'));
+            if (currentIndex !== -1) {
+                images[currentIndex].classList.remove('active');
+                if (indicators.length > 0) {
+                    indicators[currentIndex].classList.remove('active');
+                }
+            }
+            
+            images[index].classList.add('active');
+            if (indicators.length > 0) {
+                indicators[index].classList.add('active');
+            }
         }
 
         // Event Listeners Initialization
@@ -2550,6 +2895,7 @@
         });
     </script>
     @include('partials.cookie-consent')
+    @include('partials.whatsapp-button')
 </body>
 
 </html>

@@ -14,7 +14,14 @@ class Kernel extends ConsoleKernel
     
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('flights:fetch-daily')->dailyAt('02:00');    
+        // Fetch flights daily at 2 AM
+        $schedule->command('flights:fetch-daily')->dailyAt('02:00');
+        
+        // Sync hotels daily at 3 AM (off-peak hours)
+        $schedule->command('hotels:sync Dubai --queue')->dailyAt('03:00');
+        
+        // Sync cars daily at 4 AM (off-peak hours)
+        $schedule->command('cars:sync Dubai --queue')->dailyAt('04:00');
     }
 
     /**

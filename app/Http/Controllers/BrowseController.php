@@ -17,7 +17,24 @@ class BrowseController extends Controller
     public function hotels()
     {
         // Fetch only first 50 hotels to prevent page freezing
-        $items = \App\Models\Hotel::select('name', 'city', 'latitude', 'longitude', 'hotel_id', 'price')
+        $items = \App\Models\Hotel::select(
+            'id',
+            'name',
+            'city',
+            'latitude',
+            'longitude',
+            'hotel_id',
+            'price',
+            'price_per_night',
+            'image_url',
+            'images',
+            'rating',
+            'review_count',
+            'description',
+            'amenities',
+            'currency',
+            'booking_url'
+        )
             ->limit(50)
             ->get();
         
@@ -38,7 +55,24 @@ class BrowseController extends Controller
         $offset = $request->input('offset', 0);
         $limit = 50;
         
-        $hotels = \App\Models\Hotel::select('name', 'city', 'latitude', 'longitude', 'hotel_id', 'price')
+        $hotels = \App\Models\Hotel::select(
+            'id',
+            'name',
+            'city',
+            'latitude',
+            'longitude',
+            'hotel_id',
+            'price',
+            'price_per_night',
+            'image_url',
+            'images',
+            'rating',
+            'review_count',
+            'description',
+            'amenities',
+            'currency',
+            'booking_url'
+        )
             ->skip($offset)
             ->take($limit)
             ->get();
@@ -56,9 +90,24 @@ class BrowseController extends Controller
     public function cars()
     {
         // Fetch cars and map fields to match the generic 'browse' view expectations
-        $items = \App\Models\Car::select('brand', 'model', 'city', 'price', 'id')->get()->map(function ($car) {
-            $car->name = $car->brand . ' ' . $car->model;
-            // Cars might not have lat/long for map, so we'll use 0,0 or null -> logic in view will handle visual
+        $items = \App\Models\Car::select(
+            'id',
+            'brand',
+            'model',
+            'city',
+            'price',
+            'price_per_day',
+            'image_url',
+            'images',
+            'category',
+            'seats',
+            'transmission',
+            'fuel_type',
+            'currency',
+            'booking_url'
+        )->get()->map(function ($car) {
+            $car->name = trim(($car->brand ?? '') . ' ' . ($car->model ?? ''));
+            // Cars might not have lat/long for map, so we'll use null -> logic in view will handle visual
             $car->latitude = null;
             $car->longitude = null;
             return $car;

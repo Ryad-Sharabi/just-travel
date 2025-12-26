@@ -638,6 +638,7 @@
         });
     </script>
     @include('partials.cookie-consent')
+    @include('partials.whatsapp-button')
 </body>
 
 </html>

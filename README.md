@@ -7,6 +7,99 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Just Travel - AI Powered Travel Platform
+
+A comprehensive travel booking platform with AI-powered itinerary planning, hotel bookings, flight searches, and car rentals.
+
+## Setup Instructions
+
+### Prerequisites
+- PHP 8.1 or higher
+- Composer
+- MySQL/MariaDB
+- Node.js and NPM
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd just_travel-backend
+   ```
+
+2. **Install dependencies**
+   ```bash
+   composer install
+   npm install
+   ```
+
+3. **Environment Configuration**
+   - Copy `.env.example` to `.env` (if available) or create `.env` file
+   - Generate application key:
+     ```bash
+     php artisan key:generate
+     ```
+   - Configure database connection in `.env`:
+     ```
+     DB_CONNECTION=mysql
+     DB_HOST=127.0.0.1
+     DB_PORT=3306
+     DB_DATABASE=your_database_name
+     DB_USERNAME=your_username
+     DB_PASSWORD=your_password
+     ```
+
+4. **RapidAPI Configuration**
+   - Sign up at [RapidAPI](https://rapidapi.com)
+   - Subscribe to **Zilyo API** (recommended) or Hotels.com Provider API
+   - Add to `.env`:
+     ```
+     RAPIDAPI_KEY=your_rapidapi_key_here
+     RAPIDAPI_HOST=zilyo.p.rapidapi.com
+     RAPIDAPI_PROVIDER=zilyo
+     ```
+   
+   **Note:** Zilyo API is recommended as it returns structured JSON data. If using Hotels.com Provider API, set:
+     ```
+     RAPIDAPI_HOST=hotels-com-provider.p.rapidapi.com
+     RAPIDAPI_PROVIDER=hotels-com
+     ```
+
+5. **Other API Keys**
+   - Amadeus API (for flights):
+     ```
+     AMADEUS_CLIENT_ID=your_client_id
+     AMADEUS_CLIENT_SECRET=your_client_secret
+     ```
+   - Gemini AI (for AI travel assistant):
+     ```
+     GEMINI_API_KEY=your_gemini_key
+     ```
+
+6. **Run migrations**
+   ```bash
+   php artisan migrate
+   ```
+
+7. **Start development server**
+   ```bash
+   php artisan serve
+   ```
+
+### Sync Hotels and Cars Data
+
+To sync hotels and cars from RapidAPI:
+
+```bash
+# Sync hotels
+php artisan hotels:sync
+
+# Sync cars
+php artisan cars:sync
+```
+
+These commands are also scheduled to run daily automatically.
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:

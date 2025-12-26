@@ -229,54 +229,6 @@
             top: 60px;
         }
 
-        /* Floating WhatsApp Button */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background: #25D366;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
-            z-index: 999;
-            transition: var(--transition);
-            text-decoration: none;
-            color: var(--white);
-            font-size: 1.8rem;
-            animation: pulse-whatsapp 2s infinite;
-        }
-
-        .whatsapp-float:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 30px rgba(37, 211, 102, 0.6);
-        }
-
-        .whatsapp-float:active {
-            transform: scale(0.95);
-        }
-
-        @keyframes pulse-whatsapp {
-            0%, 100% {
-                box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
-            }
-            50% {
-                box-shadow: 0 4px 30px rgba(37, 211, 102, 0.6), 0 0 0 10px rgba(37, 211, 102, 0.1);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .whatsapp-float {
-                bottom: 20px;
-                right: 20px;
-                width: 55px;
-                height: 55px;
-                font-size: 1.6rem;
-            }
-        }
 
         header.scrolled {
             background: var(--bg-card);
@@ -715,18 +667,49 @@
             border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            height: 350px;
+            position: relative;
+            background: var(--bg-page);
         }
 
+        /* Default styling for images */
         .showcase-img {
             width: 100%;
-            height: 350px;
+            height: 100%;
             object-fit: cover;
             display: block;
             transition: transform 0.6s ease;
         }
 
-        .showcase-img-wrapper:hover .showcase-img {
+        /* Special styling for video elements - prevents distortion */
+        .showcase-img-wrapper video.showcase-img {
+            width: 100%;
+            height: 100%;
+            /* Use contain to maintain aspect ratio and prevent distortion */
+            object-fit: contain;
+            object-position: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: #000;
+            /* Ensure video maintains its natural aspect ratio */
+        }
+
+        /* For images, keep cover behavior */
+        .showcase-img-wrapper img.showcase-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .showcase-img-wrapper:hover img.showcase-img {
             transform: scale(1.05);
+        }
+
+        /* Prevent video distortion on hover - keep it static */
+        .showcase-img-wrapper:hover video.showcase-img {
+            transform: none;
         }
 
         .showcase-text {
@@ -987,10 +970,10 @@
             <p class="hero-text" data-t="hero_desc_new">Plan your perfect trip with our advanced AI travel assistant.
                 Flights, hotels, and experiences curated just for you.</p>
             <div class="hero-buttons">
-                @if (Route::has('login'))
-                    <a href="{{ route('login') }}" class="btn btn-primary" data-t="btn_start">Start Your Journey</a>
-                @else
+                @if(Auth::guard('flutter_web')->check())
                     <a href="{{ route('home') }}" class="btn btn-primary" data-t="btn_start">Start Your Journey</a>
+                @else
+                    <a href="{{ route('login') }}" class="btn btn-primary" data-t="btn_start">Start Your Journey</a>
                 @endif
                 <a href="#features" class="btn btn-outline" data-t="btn_learn">Learn More</a>
             </div>
@@ -1007,13 +990,17 @@
                     <video src="{{ asset('images/AI.mp4') }}" class="showcase-img" autoplay loop muted playsinline></video>
                 </div>
                 <div class="showcase-text">
-                    <h2 class="showcase-title" data-t="f1_title">Your Personal AI Guide</h2>
+                    <h2 class="showcase-title" data-t="f1_title">Your Personal Guide</h2>
                     <p class="showcase-p" data-t="f1_desc">
-                        Meet <strong>JustMine</strong>, your smart travel companion using Gemini AI.
+                        Meet <strong>JustMine</strong>, your smart travel companion.
                         Simply chat to discover hidden gems, get weather-based suggestions, and build custom itineraries
                         in seconds.
                     </p>
-                    <a href="{{ route('ai.chat') }}" class="btn btn-primary" data-t="btn_ai">Try AI Chat</a>
+                    @if(Auth::guard('flutter_web')->check())
+                        <a href="{{ route('ai.chat') }}" class="btn btn-primary" data-t="btn_ai">Try AI Chat</a>
+                    @else
+                        <a href="{{ route('login') }}" class="btn btn-primary" data-t="btn_ai">Try AI Chat</a>
+                    @endif
                 </div>
             </div>
 
@@ -1029,7 +1016,11 @@
                         Our comprehensive search engine connects you to thousands of destinations with the best rates
                         and easiest booking flow.
                     </p>
-                    <a href="{{ route('home') }}" class="btn btn-primary" data-t="btn_flights">Browse Flights</a>
+                    @if(Auth::guard('flutter_web')->check())
+                        <a href="{{ route('home') }}" class="btn btn-primary" data-t="btn_flights">Browse Flights</a>
+                    @else
+                        <a href="{{ route('login') }}" class="btn btn-primary" data-t="btn_flights">Browse Flights</a>
+                    @endif
                 </div>
             </div>
 
@@ -1044,7 +1035,11 @@
                         Take Just Travel with you. Our mobile-first design ensures you can manage your bookings,
                         give feedback, and update your profile on the go.
                     </p>
-                    <a href="{{ route('mobile.app') }}" class="btn btn-primary" data-t="btn_app">Get the App</a>
+                    @if(Auth::guard('flutter_web')->check())
+                        <a href="{{ route('mobile.app') }}" class="btn btn-primary" data-t="btn_app">Get the App</a>
+                    @else
+                        <a href="{{ route('login') }}" class="btn btn-primary" data-t="btn_app">Get the App</a>
+                    @endif
                 </div>
             </div>
 
@@ -1168,7 +1163,7 @@
                 hero_desc: "Revolutionizing travel planning with the power of Artificial Intelligence. Your journey starts with a simple conversation.",
                 btn_start_journey: "Start Your Journey",
                 btn_learn_more: "Learn More",
-                f1_title: "Your Personal AI Guide",
+                f1_title: "Your Personal Guide",
                 f1_desc: "Meet <strong>JustMine</strong>, your smart travel companion using Gemini AI. Simply chat to discover hidden gems, get weather-based suggestions, and build custom itineraries in seconds.",
                 btn_ai: "Try AI Chat",
                 f2_title: "Smart Flight Search",
@@ -1345,11 +1340,7 @@
         });
     </script>
     @include('partials.cookie-consent')
-    
-    <!-- Floating WhatsApp Button -->
-    <a href="https://wa.me/971507466975" target="_blank" class="whatsapp-float" aria-label="Contact us on WhatsApp" title="Chat with us on WhatsApp">
-        <i class="fa-brands fa-whatsapp"></i>
-    </a>
+    @include('partials.whatsapp-button')
 </body>
 <!-- 
     Note to User:

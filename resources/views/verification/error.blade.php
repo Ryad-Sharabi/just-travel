@@ -22,5 +22,6 @@
       <a class="btn" href="{{ $cta_url }}">{{ $cta_txt ?? 'Back to home' }}</a>
     @endif
   </main>
+    @include('partials.whatsapp-button')
 </body>
 </html>

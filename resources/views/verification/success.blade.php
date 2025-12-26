@@ -59,5 +59,6 @@
       <p class="sub">You will be redirected automatically in {{ (int)$autoredirect_seconds }}s…</p>
     @endif
   </main>
+    @include('partials.whatsapp-button')
 </body>
 </html>
