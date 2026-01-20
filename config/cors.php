@@ -19,15 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-     'allowed_origins' => [
-        'https://justtravel.pro',
-        'https://www.justtravel.pro',
-        'https://admin.justtravel.pro',
-        'http://localhost',          
-        'http://localhost:55550',    
-        'http://127.0.0.1',
-        'http://127.0.0.1:51445',
-    ],
+    'allowed_origins' => ['*'],  // Allow all origins
 
     'allowed_origins_patterns' => [],
 
