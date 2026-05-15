@@ -1,159 +1,193 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<div align="center">
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# ✈️ Just Travel
 
-## Just Travel - AI Powered Travel Platform
+### AI-Powered Travel Platform
 
-A comprehensive travel booking platform with AI-powered itinerary planning, hotel bookings, flight searches, and car rentals.
+**Plan smarter trips through conversation — flights, stays, and curated experiences in one AI-first travel platform.**
 
-## Setup Instructions
+[![Live Site](https://img.shields.io/badge/Live-justtravel.pro-success?style=for-the-badge&logo=googlechrome&logoColor=white)](https://justtravel.pro)
+[![Laravel](https://img.shields.io/badge/Laravel-10.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
+[![PHP](https://img.shields.io/badge/PHP-8.1+-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
+[![Status](https://img.shields.io/badge/Status-Production-success?style=for-the-badge)](https://justtravel.pro)
 
-### Prerequisites
-- PHP 8.1 or higher
-- Composer
-- MySQL/MariaDB
-- Node.js and NPM
+[**🌐 Live Demo**](https://justtravel.pro) · [**📧 Contact**](mailto:Info@thu-hunter.org) · [**💼 Portfolio**](https://portfolio.thu-hunter.org)
 
-### Installation
+</div>
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd just_travel-backend
-   ```
+---
 
-2. **Install dependencies**
-   ```bash
-   composer install
-   npm install
-   ```
+## 📋 Overview
 
-3. **Environment Configuration**
-   - Copy `.env.example` to `.env` (if available) or create `.env` file
-   - Generate application key:
-     ```bash
-     php artisan key:generate
-     ```
-   - Configure database connection in `.env`:
-     ```
-     DB_CONNECTION=mysql
-     DB_HOST=127.0.0.1
-     DB_PORT=3306
-     DB_DATABASE=your_database_name
-     DB_USERNAME=your_username
-     DB_PASSWORD=your_password
-     ```
+**Just Travel** reimagines trip planning as a **dialogue instead of a form**. Instead of juggling multiple tabs for flights, hotels, and local tips, travelers interact with **JustMine** — an AI travel companion powered by Google Gemini — to shape their trip, then move seamlessly into search and booking flows backed by industry APIs.
 
-4. **RapidAPI Configuration**
-   - Sign up at [RapidAPI](https://rapidapi.com)
-   - Subscribe to **Zilyo API** (recommended) or Hotels.com Provider API
-   - Add to `.env`:
-     ```
-     RAPIDAPI_KEY=your_rapidapi_key_here
-     RAPIDAPI_HOST=zilyo.p.rapidapi.com
-     RAPIDAPI_PROVIDER=zilyo
-     ```
-   
-   **Note:** Zilyo API is recommended as it returns structured JSON data. If using Hotels.com Provider API, set:
-     ```
-     RAPIDAPI_HOST=hotels-com-provider.p.rapidapi.com
-     RAPIDAPI_PROVIDER=hotels-com
-     ```
+> Built for travelers who want intelligence, speed, and a unified experience — not endless forms.
 
-5. **Other API Keys**
-   - Amadeus API (for flights):
-     ```
-     AMADEUS_CLIENT_ID=your_client_id
-     AMADEUS_CLIENT_SECRET=your_client_secret
-     ```
-   - Gemini AI (for AI travel assistant):
-     ```
-     GEMINI_API_KEY=your_gemini_key
-     ```
+---
 
-6. **Run migrations**
-   ```bash
-   php artisan migrate
-   ```
+## ✨ Key Features
 
-7. **Start development server**
-   ```bash
-   php artisan serve
-   ```
+### 🤖 AI Travel Companion (JustMine)
+- **Conversational trip planning** powered by Google Gemini
+- Personalized itineraries based on user preferences
+- Hidden gems & local recommendations
+- Weather-aware suggestions
+- Multi-turn conversations with context retention
 
-### Sync Hotels and Cars Data
+### ✈️ Smart Flight Search
+- Real-time flight data via **Amadeus APIs**
+- Route comparison and price optimization
+- Multi-city and round-trip support
+- Integrated booking flow
 
-To sync hotels and cars from RapidAPI:
+### 🏨 Hotels & 🚗 Car Rentals
+- Integrated catalog sync via **RapidAPI** (Zilyo / Hotels.com providers)
+- Scheduled background updates for fresh inventory
+- Detailed property views with photos and amenities
+- Comparison tools across providers
 
-```bash
-# Sync hotels
-php artisan hotels:sync
+### 🌍 Multilingual Experience
+- **Arabic, English**, and additional locales
+- Full RTL support for Arabic users
+- Localized booking flows and content
 
-# Sync cars
-php artisan cars:sync
+### 📱 Mobile-First Design
+- Responsive UI optimized for all devices
+- Dark/light mode toggle
+- Companion mobile app for on-the-go booking
+- WhatsApp support integration
+
+### ⚙️ Admin & Operations
+- Laravel backend with **TCG Voyager** for content management
+- Scheduled artisan jobs for API synchronization
+- Production-ready deployment on Linux VPS
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| **Backend** | Laravel 10, PHP 8.1+ |
+| **Database** | MySQL 8 |
+| **Frontend** | Blade Templates, Vite, Modern CSS |
+| **Authentication** | Laravel Sanctum |
+| **AI Engine** | Google Gemini API |
+| **Flight Data** | Amadeus API |
+| **Hotels & Cars** | RapidAPI (Zilyo / Hotels.com) |
+| **Admin Panel** | TCG Voyager |
+| **Build Tools** | Vite, Laravel Mix |
+| **Deployment** | Linux VPS, aaPanel, Nginx |
+| **Background Jobs** | Laravel Scheduler, Artisan Commands |
+
+---
+
+## 🎯 Architecture Highlights
+
+### Scheduled Inventory Sync
+
+```
+┌──────────────────────────────────────┐
+│   Scheduled Artisan Sync Jobs        │
+└──────────────────────────────────────┘
+              │
+              ├── Hotels Inventory (RapidAPI)
+              ├── Car Rentals (RapidAPI)
+              └── Cache Refresh & Index Updates
 ```
 
-These commands are also scheduled to run daily automatically.
+### Conversational AI Flow
 
-## About Laravel
+```
+User Message → Context Builder → Gemini API → Response Parser → 
+  → Itinerary Generator OR Search Trigger → UI Render
+```
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Booking Flow
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+```
+Search Query → Amadeus/RapidAPI → Results → 
+  → Filter/Sort → Selection → Booking → Confirmation
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 💡 What Makes It Different
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Most travel platforms force users into rigid forms: dates, destinations, filters. **Just Travel flips the model**:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+1. **Start with a conversation** — "I want a 5-day trip to Istanbul, budget-friendly, food-focused"
+2. **AI builds the plan** — JustMine suggests itineraries, neighborhoods, hidden gems
+3. **Search seamlessly** — Move from suggestion to live flight/hotel search with one tap
+4. **Book in flow** — No tab-switching, no context-loss
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## 🚀 Use Cases
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- 🧳 **Solo travelers** seeking off-the-beaten-path experiences
+- 👨‍👩‍👧 **Families** planning complex multi-stop trips
+- 💼 **Business travelers** needing fast, integrated booking
+- 🌏 **MENA region users** wanting Arabic-first travel tools
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## 👨‍💻 My Role
 
-## Contributing
+**Full-Stack Development** — Built end-to-end:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- 🏗️ **Backend architecture** — Laravel models, services, and API layer
+- 🤖 **AI integration** — Gemini conversation handling, prompt engineering, context management
+- ✈️ **Booking flows** — Amadeus flight search and RapidAPI hotel/car integration
+- 🔄 **Scheduled sync jobs** — Artisan commands for inventory updates
+- 🌍 **Multilingual implementation** — i18n architecture for AR/EN locales
+- 🚀 **Production deployment** — VPS setup, aaPanel configuration, Nginx tuning
+- 📱 **Mobile-first UI** — Responsive Blade templates with modern CSS
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 📊 Production Stats
 
-## Security Vulnerabilities
+- **Live URL:** [justtravel.pro](https://justtravel.pro)
+- **Status:** Active production
+- **Stack health:** Monitored, optimized for conversion
+- **Sync frequency:** Hourly catalog refresh
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## 🔐 Code Access
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This repository serves as a **public showcase** of the project. Core business logic, API credentials, and proprietary algorithms remain in the private working repository.
+
+**For technical evaluation or partnership inquiries**, I'm happy to provide:
+- Live walkthroughs of the codebase
+- Architecture deep-dives
+- Code samples under NDA
+- Technical interview discussions
+
+---
+
+## 📬 Get In Touch
+
+<div align="center">
+
+| Channel | Contact |
+|---------|---------|
+| 📧 **Email** | [Info@thu-hunter.org](mailto:Info@thu-hunter.org) |
+| 💼 **LinkedIn** | [linkedin.com/in/riad-al-sharabi](https://www.linkedin.com/in/riad-al-sharabi) |
+| 🌐 **Portfolio** | [portfolio.thu-hunter.org](https://portfolio.thu-hunter.org) |
+| 📱 **WhatsApp** | +963 99 2222 833 |
+
+</div>
+
+---
+
+<div align="center">
+
+**Built with focus, shipped with discipline.**
+
+*Ryad El Sharabi · Full Stack Developer · SaaS & ERP Architect*
+
+⭐ If you find this project interesting, consider starring the repo!
+
+</div>
