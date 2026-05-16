@@ -122,7 +122,36 @@ Most travel platforms force users into rigid forms: dates, destinations, filters
 4. **Book in flow** — No tab-switching, no context-loss
 
 ---
+---
 
+## 📸 Screenshots
+
+<div align="center">
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="docs/screen_1.png" alt="Just Travel - Screen 1" width="100%"/>
+    </td>
+    <td align="center">
+      <img src="docs/screen_2.png" alt="Just Travel - Screen 2" width="100%"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="docs/screen_3.png" alt="Just Travel - Screen 3" width="100%"/>
+    </td>
+    <td align="center">
+      <img src="docs/screen_4.png" alt="Just Travel - Screen 4" width="100%"/>
+    </td>
+  </tr>
+</table>
+
+*Live experience available at [justtravel.pro](https://justtravel.pro)*
+
+</div>
+
+---
 ## 🚀 Use Cases
 
 - 🧳 **Solo travelers** seeking off-the-beaten-path experiences
